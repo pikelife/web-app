@@ -1,0 +1,28 @@
+{
+  "name": "joinon",
+  "version": "0.0.0",
+  "authors": [
+    "Idriss Said Alaoui <idriss0said0alaoui@gmail.com>"
+  ],
+  "description": "help friends to meet together",
+  "main": "app.js",
+  "keywords": [
+    "friends",
+    "love"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "iron-elements": "PolymerElements/iron-elements#~1.0.1",
+    "paper-elements": "PolymerElements/paper-elements#~1.0.1",
+    "gold-elements": "PolymerElements/gold-elements#~1.0.1",
+    "angularjs": "~1.4.1",
+    "jquery": "~2.1.4"
+  }
+}

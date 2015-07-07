@@ -1,0 +1,141 @@
+<dom-module id="auth-view">
+  
+  <style>
+    :host .background-image {
+      background: url('/assets/img/Festival_Avon.jpg') no-repeat center center;
+      background-size: cover;
+      display: block;
+      filter: blur(5px);
+      -webkit-filter: blur(5px);
+      height: 120vh;
+      width: 120vw;
+      left: 0;
+      position: fixed;
+      right: 0;
+      z-index: 1;
+      margin : -20px;
+    }
+    
+    :host .container {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      top: 10px;
+      left: 50%;
+      top : 20vh;
+      transform: translateX(-50%);
+      position: fixed;
+      z-index: 2;
+      padding: 16px;
+      max-height: 70vh;
+      width : 90vw;
+      max-width: 400px;
+      
+    }
+    
+    :host .title{
+      margin: 0 auto;
+      color : #2196F3;
+      font-size: 28px;
+    }
+    
+    :host .logo{
+      height: 72px;
+      width: 100%;
+      margin: -8px 8px;
+    }
+    
+    :host .auth-btn{
+      margin-top: 16px;
+      background-color: #F3A021;
+      color: #fff;
+    }
+    
+    :host .info-div{
+      font-size : 12px;
+      margin: 16px;
+      margin-bottom: 0px;
+    }
+    
+    :host .auth-link{
+      color : #2196F3;
+    }
+    
+  </style>
+  
+  <template>
+      <div class="background-image"></div>
+      <div class='container vertical layout'>
+        <div class="title"> You are welcome to </div>
+        <img src="/assets/img/logo.svg" class="logo"/>
+        <paper-input-container>
+          <label>Email</label>
+          <input is="iron-input" value="{{_profileData.email::input}}">
+        </paper-input-container>
+        <template is="dom-if" if="{{!isLogin}}">
+          <paper-input-container>
+            <label>Your Name</label>
+            <input is="iron-input" value="{{_profileData.name::input}}">
+          </paper-input-container>
+        </template>
+        <paper-input-container>
+          <label>Password</label>
+          <input is="iron-input" type="password" value="{{_profileData.password::input}}">
+        </paper-input-container>
+        <template is="dom-if" if="{{isLogin}}">
+         <paper-button class='auth-btn' on-click="login" raised>Login</paper-button>
+        </template>
+        <template is="dom-if" if="{{!isLogin}}">
+          <paper-button class='auth-btn' on-click="register" raised>Register</paper-button>
+        </template>
+        <div class="info-div">
+          <template is="dom-if" if="{{isLogin}}">
+            Still new to the app? - <a href="#" class="auth-link" on-click="registerView">register</a>
+          </template>
+          <template is="dom-if" if="{{!isLogin}}">
+            Already having an account? - <a href="#" class="auth-link" on-click="loginView">login</a>
+          </template>
+        </div>
+      </div>
+  </template>
+	  
+  <link rel="import" href="/assets/apps/common/bind-angular.html">
+	<script>
+	
+	  Polymer({
+	    is: "auth-view",
+	    
+	    properties : {
+	      isLogin : {
+	        type : Boolean,
+	        value : true
+	      }
+	    },
+	
+	    behaviors: [BindingAngularBehavior],
+	
+	    observers: [],
+	      
+	    ready : function(){
+	      this.startBinding();
+	    },
+	    
+	    registerView : function(){
+	      this.set('isLogin', false);
+	    },
+	    
+	    loginView : function(){
+	      this.set('isLogin', true);
+	    },
+	    
+	    login : function(){
+	      this.appCtrl.login();
+	    },
+	    
+	    register : function(){
+	      this.appCtrl.register();
+	    },
+    });
+    
+	</script>
+	
+</dom-module>

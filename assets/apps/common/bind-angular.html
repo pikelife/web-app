@@ -1,0 +1,148 @@
+<script>
+    BindingAngularBehavior = {
+
+      properties: {
+        appCtrl : Object,
+        appScope :  Object
+      },
+
+      startBinding : function(){
+        angular.element(document).ready(
+          (function(_this){
+            return function () {
+              
+              setTimeout(function(){
+                _this.appScope = angular.element(_this).scope();
+                _this.appCtrl = angular.element(_this).scope()["controller"];
+               
+               if(!_this.appCtrl || !_this.appScope) throw "angular js not found";
+               for(var i in _this.appCtrl){
+                 var attr = _this.appCtrl[i];
+                 if(typeof attr === "function" && i[0] === "_"){
+                   var result = attr();
+                   
+                   if(typeof result === "object"){
+                     _this.setObserverObject(i);
+                     if(Array.isArray(result)){
+                       _this.properties[i] = { type : Array};
+                       _this.observers.push(i + "Changed("+ i +".splices)");
+                       _this._addComplexObserverEffect(i + "Changed("+ i +".splices)");
+                       _this.setAngularWatchArray(result, i);
+                     }else if(result instanceof Date){
+                       _this.properties[i] = { type : Date};
+                       _this.setObserversValueArray(i + "Changed("+ i +")");
+                     }else{
+                      _this.properties[i] = { type : Object};
+                      _this.observers.push(i + "Changed("+ i +".*)");
+                      _this._addComplexObserverEffect(i + "Changed("+ i +".*)");
+                      _this.setAngularWatchObject(result, i);
+                     }
+                   }else{
+                     _this.setObserverValue(i)
+                     if(typeof result === "string"){
+                       _this.properties[i] = { type : String};
+                       _this.setObserversValueArray(i + "Changed("+ i +")");
+                       _this.setAngularWatchValue(i);
+                     }else if(typeof result === "number"){
+                       _this.properties[i] = { type : Number};
+                       _this.setObserversValueArray(i + "Changed("+ i +")");
+                       _this.setAngularWatchValue(i);
+                     }else if(typeof result === "boolean"){
+                       _this.properties[i] = { type : Boolean};
+                       _this.setObserversValueArray(i + "Changed("+ i +")");
+                       _this.setAngularWatchValue(i);
+                     }
+                   }
+                   _this[i] =  result;
+                 }
+               }
+               
+               if(_this.appCtrl.__initPolymer__){
+                 _this.appCtrl.__initPolymer__();
+               }
+              });
+                 
+             }
+          })(this)
+        );
+      },
+      
+      _setAngularWatchHelperObject : function(objectToWatch, key, target){
+        this.appScope.$watch(
+          (function(dataObj, observedKey){
+            return function() { 
+               return dataObj[observedKey];
+            }
+          })(objectToWatch, target),
+          (function(PolyObj, objName, targetKey){
+            return function(newValue, oldValue) {
+              PolyObj.set(objName + "." + targetKey, newValue);
+            }
+          })(this, key, target)
+        );
+      },
+
+      _setAngularWatchHelperArray : function(objectToWatch, key, target){
+        this.appScope.$watch(
+          (function(dataObj, observedKey){
+            return function() { 
+               return dataObj[observedKey];
+            }
+          })(objectToWatch, target),
+          (function(PolyObj, objName){
+            return function(newValue, oldValue) {
+              PolyObj.set(objName, PolyObj[objName]);
+            }
+          })(this, key)
+        );
+      },
+      
+      _setAngularWatchHelperValue : function(objectName){
+        this.appScope.$watch(
+          (function(dataObj, observedKey){
+            return function() { return dataObj[observedKey]; }
+          })(this, objectName),
+          (function(PolyObj, objName){
+            return function(newValue, oldValue) {
+              PolyObj.set(objName, newValue);
+            }
+          })(this, objectName)
+        );
+      },
+      
+      setAngularWatchArray : function (objectToWatch, objectName){
+        for(var i in objectToWatch){
+          this._setAngularWatchHelperArray(objectToWatch, objectName, i);
+        }
+      },
+      
+      setAngularWatchObject : function (objectToWatch, objectName){
+        for(var i in objectToWatch){
+          this._setAngularWatchHelperObject(objectToWatch, objectName, i);
+        }
+      },
+      
+      setAngularWatchValue : function (objectName){
+        this._setAngularWatchHelperValue(objectName);
+      },
+
+      setObserversValueArray : function(name){
+        this.observers.push(name);
+        this._addComplexObserverEffect(name);
+      },
+
+      setObserverObject: function(name) {
+        var func = new Function(
+          "return Polymer.prototype." + name + "Changed" + " = function(){this.appScope.timeout(function(){})}"
+        )();
+        this[name + "Changed"] = func;
+      },
+      
+      setObserverValue: function(name) {
+        var func = new Function(
+          "return Polymer.prototype." + name + "Changed" + " = function(value){ this.appCtrl['" + name +"'](value); this.appScope.timeout(function(){})}"
+        )();
+        this[name + "Changed"] = func;
+      }
+    }
+</script>

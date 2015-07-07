@@ -1,0 +1,29 @@
+<dom-module id="app-view">
+  
+  <style>
+    
+  </style>
+  
+  <template>
+      hello <strong>{{_profileData.name}}</strong> stay tuned for the app to be finished :p
+  </template>
+	  
+  <link rel="import" href="/assets/apps/common/bind-angular.html">
+	<script>
+	
+	  Polymer({
+	    is: "app-view",
+	    
+	
+	    behaviors: [BindingAngularBehavior],
+	
+	    observers: [],
+	      
+	    ready : function(){
+	      this.startBinding();
+	    },
+    });
+    
+	</script>
+	
+</dom-module>

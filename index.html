@@ -1,0 +1,38 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <title>Welcome to Join On</title>
+     
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='/assets/apps/common/common-style.css' rel='stylesheet' type='text/css'>
+    
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+    <link rel="import" href="/bower_components/paper-button/paper-button.html">
+    <link rel="import" href="/bower_components/paper-input/paper-input.html">
+    
+    <link rel="import" href="/bower_components/paper-behaviors/paper-inky-focus-behavior.html">
+    <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+    
+    <link rel="import" href="/assets/apps/profile/auth.html">
+    <link rel="import" href="/assets/apps/common/app.html">
+    
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angularjs/angular.min.js"></script>
+     
+  </head>
+  <body ng-app="joinon">
+    
+    <div ng-controller="ProfileController as ProfileCtlr">
+      <auth-view ng-hide="islogged"></auth-view>
+      <app-view ng-show="islogged"></app-view>
+    </div>
+    
+    
+    <script src="/assets/apps/common/joinOn.js"></script>
+    <script src="/assets/apps/profile/app.js"></script>
+    <script src="/assets/apps/profile/filters.js"></script>
+  </body>
+</html>

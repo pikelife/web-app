@@ -1,0 +1,30 @@
+{
+  "name": "polygen",
+  "version": "1.0.0",
+  "description": "app to generate polymer apps filled what in google spreedsheet",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/Idresign/polygen"
+  },
+  "keywords": [
+    "polymer",
+    "google",
+    "google",
+    "spreeadsheet",
+    "angularjs",
+    "mangodb"
+  ],
+  "author": "Idriss Said Alaoui",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "express": "^4.12.4",
+    "mongodb": "~2.0",
+    "mongoose": "^4.0.5",
+    "request": "^2.58.0"
+  }
+}
