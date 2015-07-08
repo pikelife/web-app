@@ -92,7 +92,7 @@ app.route('/profile')
   
 var server = app.listen(8080, function () {
 
-  var host = "198.100.145.160";
+  var host = server.address().address;
   var port = server.address().port;
 
   console.log('joinOn app listening at http://%s:%s', host, port);
