@@ -76,34 +76,7 @@
       <div class="background-image"></div>
       <div class='container vertical layout'>
         <div class="logo-text">Pikelife</div>
-        <paper-input-container>
-          <label>Email</label>
-          <input is="iron-input" value="{{_profileData.email::input}}">
-        </paper-input-container>
-        <template is="dom-if" if="{{!isLogin}}">
-          <paper-input-container>
-            <label>Your Name</label>
-            <input is="iron-input" value="{{_profileData.name::input}}">
-          </paper-input-container>
-        </template>
-        <paper-input-container>
-          <label>Password</label>
-          <input is="iron-input" type="password" value="{{_profileData.password::input}}">
-        </paper-input-container>
-        <template is="dom-if" if="{{isLogin}}">
-         <paper-button class='auth-btn' on-click="login" raised>Login</paper-button>
-        </template>
-        <template is="dom-if" if="{{!isLogin}}">
-          <paper-button class='auth-btn' on-click="register" raised>Register</paper-button>
-        </template>
-        <div class="info-div">
-          <template is="dom-if" if="{{isLogin}}">
-            Still new to the app? - <a href="#" class="auth-link" on-click="registerView">register</a>
-          </template>
-          <template is="dom-if" if="{{!isLogin}}">
-            Already having an account? - <a href="#" class="auth-link" on-click="loginView">login</a>
-          </template>
-        </div>
+        upcoming soon
       </div>
   </template>
 	  
