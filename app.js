@@ -5,7 +5,7 @@ var express = require('express'),
     mongoose = require('mongoose');
 
 var joinOnApp = this;
-
+/* first small comment by sara */ 
 var profileSchema;
 joinOnApp.profileSchema = function(val){
   if(val !== undefined) profileSchema = val;
