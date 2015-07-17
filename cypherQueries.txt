@@ -1,0 +1,65 @@
+
+CREATE (user1: User{
+	firstName: "Idriss",
+	lastName: "Alaoui",
+	age:23,
+	email:"idriss.said.alaoui@pikelife.com",
+	gender: "male",
+	userID:1
+})
+
+CREATE (user2: User{
+	firstName: "Sara",
+	lastName: "Fatih",
+	age:21,
+	email:"sara.fatih@pikelife.com",
+	gender: "female",
+	userID:2
+})
+
+MATCH (u1:User),(u2:User)
+WHERE u1.userID = 1 AND u2.userID = 2
+CREATE (u1)-[r:FOLLOWS]->(u2)
+RETURN r
+
+//There should be a geolocation property
+CREATE (event1: Event{
+	name: "Party in the block",
+	city: "Ifrane",
+	placeDescription:"auditorium 7",
+	hour:23,
+	minutes:30,
+	day:13,
+	month:"July",
+	year:2015,
+	
+	eventID:1
+})
+
+// user1 publishes event1
+
+MATCH (u:User),(e: Event)
+WHERE u.userID = 1 AND e.eventID = 2
+CREATE (u)-[r:HAS_EVENT]->(e)
+RETURN r
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
