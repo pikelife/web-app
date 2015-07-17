@@ -1,0 +1,34 @@
+<dom-module id="event-list">
+  
+  <style>
+    
+  </style>
+  
+  <template>
+    <template is="dom-repeat" items="{{employees}}"
+    filter="isEngineer" observe="type manager.type">
+    <div>
+      
+    </div>
+  </template>
+	  
+  <link rel="import" href="/assets/apps/common/bind-angular.html">
+	<script>
+	
+	  Polymer({
+	    is: "event-list",
+	
+	    behaviors: [BindingAngularBehavior],
+	
+	    observers: [],
+	      
+	    ready : function(){
+	      this.startBinding();
+	    },
+	    
+	    
+    });
+    
+	</script>
+	
+</dom-module>

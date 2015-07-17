@@ -26,6 +26,7 @@
     <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
     
     <link rel="import" href="/assets/apps/profile/auth.html">
+    <link rel="import" href="/assets/apps/events/event-list.html">
     <link rel="import" href="/assets/apps/common/app.html">
     
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
@@ -48,9 +49,11 @@
     <paper-drawer-panel>
       <paper-header-panel mode="seamed" drawer>
         <paper-toolbar>
-          <div>Application</div>
+          <div class="app-logo">Pikelife</div>
         </paper-toolbar>
-        <div> list of events </div>
+        <div>
+          <event-list></event-list>
+        </div>
       </paper-header-panel>
       <paper-header-panel mode="seamed" main>
         <paper-toolbar>
