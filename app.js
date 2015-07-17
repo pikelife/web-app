@@ -131,7 +131,12 @@ app.route('/profile')
   })
 
   .put(function(req, res) {
-    // to be done
+    
+
+
+
+
+
   })
   .delete(function(req, res) {
     var userObject = {
@@ -164,9 +169,42 @@ app.route('/profile')
 
   
 
-app.route('/event')
+app.route('/events')
   .get(function(req, res) {
-    // to be done
+          db.cypher({
+          query: 'MATCH (e:Event) RETURN e',
+   
+      }, function (err, results) {
+           if (err) 
+              throw err;
+    
+      var result = results[0];
+      if (!result) {
+        console.log('No event found.');
+      } else {
+        var user = result['e'];
+         
+        console.log(results); 
+        var arr = [];
+        var obj;
+        for(var i in results){
+          obj = {};
+          obj.name = results[i]['e'].properties.name;
+          obj.city = results[i]['e'].properties.city;
+          obj.placeDescription = results[i]['e'].properties.placeDescription;
+          obj.hour = results[i]['e'].properties.hour;
+          obj.minutes = results[i]['e'].properties.minutes;
+          obj.day = results[i]['e'].properties.day;
+          obj.month = results[i]['e'].properties.month;
+          obj.year = results[i]['e'].properties.year;
+          obj.eventID = results[i]['e'].properties.eventID;
+          arr.push(obj)
+    }
+   
+    res.send(arr)
+   
+    }
+ }); 
   })
   .post(function(req, res) {
     
@@ -190,9 +228,9 @@ var server = app.listen(8080, function () {
 /* get users */
 
 /* post user */
-app.post('/user', function (req, res) {
+/*app.post('/user', function (req, res) {
   db.cypher({
-    query: 'CREATE (user1: User){
+    query: 'CREATE (user1: User{
       firstName: "Idriss",
   lastName: "Alaoui",
   age:23,
@@ -233,7 +271,7 @@ app.post('/user', function (req, res) {
 });
 
 
-
+*/
 
 
 
