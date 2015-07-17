@@ -18,6 +18,7 @@
     <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
     <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="/bower_components/iron-icons/social-icons.html">
     <link rel="import" href="/bower_components/iron-icon/iron-icon.html">
     <link rel="import" href="/bower_components/paper-drawer-panel/paper-drawer-panel.html">
     
@@ -29,33 +30,35 @@
     
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angularjs/angular.min.js"></script>
+    
+    <style is="custom-style">
+      paper-toolbar {
+        --paper-toolbar-background: transparent;
+        --paper-toolbar-color: #2196F3;
+        --paper-toolbar: {
+          font-size: 18px; 
+          font-weight: 500;
+        };
+      }
+    </style>
      
   </head>
   <body ng-app="joinon">
 
     <paper-drawer-panel>
-      <paper-header-panel drawer class="left-drawer">
+      <paper-header-panel mode="seamed" drawer>
         <paper-toolbar>
           <div>Application</div>
         </paper-toolbar>
-        <div> Drawer content... </div>
+        <div> list of events </div>
       </paper-header-panel>
-      <paper-drawer-panel main right-drawer>
-        <paper-header-panel drawer class="right-drawer">
-          <paper-toolbar>
-            <div>Application</div>
-          </paper-toolbar>
-          <div> Drawer content... </div>
-        </paper-header-panel>
-        <paper-header-panel main>
-          <paper-toolbar>
-            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-            <div flex>Title</div>
-            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-          </paper-toolbar>
-          <div> Main content... </div>
-        </paper-header-panel>
-      </paper-drawer-panel>
+      <paper-header-panel mode="seamed" main>
+        <paper-toolbar>
+          <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+          <div>Title</div>
+        </paper-toolbar>
+        <div> Main content... </div>
+      </paper-header-panel>
     </paper-drawer-panel>
     
     <script src="/assets/apps/common/joinOn.js"></script>
