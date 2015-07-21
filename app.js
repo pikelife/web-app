@@ -38,6 +38,9 @@ db.once('open', function (callback) {
   
 });
 
+var neo4j = require('neo4j');
+var db = new neo4j.GraphDatabase('http://neo4j:bartra56390@198.100.145.160:7474');
+
 var app = express();
 
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
@@ -58,6 +61,22 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.route('/demo')
+  .get(function(req, res) {
+    db.cypher({
+    query: 'MATCH (n) WHERE has(n.name) RETURN DISTINCT "node" as element, n.name AS name LIMIT 25 UNION ALL MATCH ()-[r]-() WHERE has(r.name) RETURN DISTINCT "relationship" AS element, r.name AS name LIMIT 25',
+    }, function (err, results) {
+      if (err) throw err;
+      res.send(results);
+      if (!result) {
+        console.log('No user found.');
+      } else {
+        var user = result['u'];
+        console.log(JSON.stringify(user, null, 4));
+      }
+    });
+  });
+  
 app.route('/profile')
   .get(function(req, res) {
     // to be done

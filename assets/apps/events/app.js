@@ -1,6 +1,6 @@
 app.controller('EventsController', function ($scope, $timeout) {
   
-  ProfileController = this;
+  var EventsController = this;
   
   $scope.controller = this;
   $scope.timeout = $timeout;
@@ -41,7 +41,7 @@ app.controller('EventsController', function ($scope, $timeout) {
       eventID:1
     }]
   };
-  _this._displayData = function(val){
+  EventsController._displayData = function(val){
     if(val !== undefined) displayData = val;
     return displayData;
   };
