@@ -21,49 +21,34 @@
     <link rel="import" href="/bower_components/iron-icons/social-icons.html">
     <link rel="import" href="/bower_components/iron-icon/iron-icon.html">
     <link rel="import" href="/bower_components/paper-drawer-panel/paper-drawer-panel.html">
-    
+    <link rel="import" href="/bower_components/paper-fab/paper-fab.html">
     <link rel="import" href="/bower_components/paper-behaviors/paper-inky-focus-behavior.html">
     <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="/bower_components/paper-item/paper-item.html">
+    <link rel="import" href="/bower_components/paper-item/paper-icon-item.html">
     
-    <link rel="import" href="/assets/apps/profile/auth.html">
-    <link rel="import" href="/assets/apps/events/event-list.html">
-    <link rel="import" href="/assets/apps/common/app.html">
-    
+     <link rel="import" href="/assets/apps/drawer/drawer-toolbar.html">
+     <link rel="import" href="/assets/apps/drawer/select-options.html">
+     <link rel="import" href="/assets/apps/drawer/drawer-list.html">
+     <link rel="import" href="/assets/apps/fabs/add-api.html">
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/bower_components/angularjs/angular.min.js"></script>
-    
-    <style is="custom-style">
-      paper-toolbar {
-        --paper-toolbar-background: #2196F3;
-        --paper-toolbar-color: #fff;
-        --paper-toolbar: {
-          font-size: 20px; 
-          font-weight: bold;
-        };
-      }
-    </style>
      
   </head>
   <body ng-app="joinon">
 
     <paper-drawer-panel>
       <paper-header-panel mode="seamed" drawer>
-        <paper-toolbar>
-          <div class="app-logo">Pikelife</div>
-        </paper-toolbar> 
+        <drawer-toolbar></drawer-toolbar>
         <div>
-          <event-list ng-controller="EventsController as EventsCtrl"></event-list>
+          <drawer-list></drawer-list>
         </div>
       </paper-header-panel>
       <paper-header-panel mode="seamed" main>
         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
         <div> Main content... </div>
+        
       </paper-header-panel>
     </paper-drawer-panel>
     
-    <script src="/assets/apps/common/joinOn.js"></script>
-    <script src="/assets/apps/profile/app.js"></script>
-    <script src="/assets/apps/events/app.js"></script>
-    <script src="/assets/apps/profile/filters.js"></script>
   </body>
 </html>
