@@ -1,9 +1,9 @@
-<dom-module id="drawer-toolbar">
+<dom-module id="main-toolbar">
   
   <style>
     :host paper-toolbar {
-      --paper-toolbar-background: #2196F3;
-      --paper-toolbar-color: #fff;
+      --paper-toolbar-background: white;
+      --paper-toolbar-color: #545454;
       --paper-toolbar: {
         font-size: 20px; 
         font-weight: bold;
@@ -13,14 +13,15 @@
      
   <template>
     <paper-toolbar>
-      <div class="app-logo">Pikelife</div>
+      <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+      <div class="flex">Logo</div>
     </paper-toolbar> 
   </template>
 	  
 	<script>
 	
 	  Polymer({
-	    is: "drawer-toolbar",
+	    is: "main-toolbar",
 	    
     });
     

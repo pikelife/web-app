@@ -61,6 +61,10 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/order', function (req, res) {
+  res.sendFile(__dirname + '/order.html');
+});
+
 app.route('/demo')
   .get(function(req, res) {
     db.cypher({

@@ -1,0 +1,138 @@
+<dom-module id="main-app">
+  
+  <style>
+    :host .inner-container {
+      max-width : 900px;
+      margin: 0 auto;
+      margin-top: 24px;
+    }
+    
+    :host .image-caroussel {
+      width : 100vw;
+      background-color: #545454;
+      height: calc(100vh - 64px);
+    }
+    
+    :host .header{
+      font-size: 36px;
+      text-transform: capitalize;
+      border-bottom: 2px solid #E0E0E0;
+      text-align: center;
+    }
+    
+    :host .card{
+      width: 256px;
+      height: 400px;
+      margin: 16px auto;
+      margin-bottom: 0;
+    }
+    
+    :host .card-img{
+      height: 66%;  
+      width: 100%;
+      background-color: #545454;
+    }
+    
+    :host .card-info{
+      padding: 16px;
+    }
+    
+    :host .card-container{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    :host .start-btn{
+      width: 66%;
+      margin: 16px auto;
+      border: 3px solid #757575;
+    }
+    
+    :host .contact-ctn{
+      width: 66%;
+      margin: 16px auto;
+      text-align: center;
+      padding-bottom: 56px;
+    }
+    
+    :host .start-btn:hover{
+      background-color: #FAFAFA;
+      transition: background-color 0.5s ease-in;
+    }
+    
+    :host .startBtn-ctn{
+      width: 100%;
+      text-align: center;
+    }
+    
+    :host .footer{
+      position: fixed;
+      bottom: 0;
+      height: 24px;
+      width: 100vw;
+      text-align: center;
+      background-color: #fff;
+    }
+    
+  </style>
+     
+  <template>
+    <div class="main-container">
+      <div class="image-caroussel">
+        
+      </div>
+      <div class="inner-container">  
+        <div class="header">how it works</div>
+        <div class="card-container">
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-info">
+              lorem ipsum
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-info">
+              lorem ipsum
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-info">
+              lorem ipsum
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-container">  
+        <div class="header">Start making your first cloth</div>
+        <div class="startBtn-ctn">
+          <a href="/order"><paper-button class="start-btn">Start Customizing</paper-button></a>
+        </div>
+      </div>
+      <div class="inner-container">  
+        <div class="header">Contact us for more information</div>
+        <div class="contact-ctn vertical layout">
+          <div>Contact</div>
+          <div>Contact</div>
+          <div>Contact</div>
+          <div>Contact</div>
+        </div>
+      </div>
+      <div class="footer">
+        footer information
+      </div>
+    </div>
+     
+  </template>
+	  
+	<script>
+	
+	  Polymer({
+	    is: "main-app",
+	    
+    });
+    
+	</script>
+	
+</dom-module>
