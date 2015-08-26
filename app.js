@@ -4,26 +4,26 @@ var express = require('express'),
     httpRequest = require('request'),
     mongoose = require('mongoose');
 
-var joinOnApp = this;
-/* first small comment by sara */ 
+
+var _this = this;
 var profileSchema;
-joinOnApp.profileSchema = function(val){
+_this.profileSchema = function(val){
   if(val !== undefined) profileSchema = val;
   return profileSchema;
 };
 
 var profileModel;
-joinOnApp.profileModel = function(val){
+_this.profileModel = function(val){
   if(val !== undefined) profileModel = val;
   return profileModel;
 };
 
-/*var url = 'mongodb://localhost:27017/polygen';
+var url = 'mongodb://localhost:27017/polygen';
 mongoose.connect(url);
 
 var db = mongoose.connection;
-*/
-/*
+
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
   
@@ -32,20 +32,17 @@ db.once('open', function (callback) {
     name : String,
     password : String
   });
-  joinOnApp.profileSchema(profileSchema);
+  _this.profileSchema(profileSchema);
   
   var Profile = mongoose.model('Profile', profileSchema);
-  joinOnApp.profileModel(Profile);
+  _this.profileModel(Profile);
   
 });
-*/
+  
 var app = express();
 
-var neo4j = require('neo4j');
-var db = new neo4j.GraphDatabase('http://neo4j:bartra56390@localhost:7474');
-
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/assets', express.static(__dirname + '/assets'));
+//app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+//app.use('/assets', express.static(__dirname + '/assets'));
 
 
 app.use(bodyParser.urlencoded({
@@ -53,171 +50,58 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-/*
+
 function getQueryObj(url){
   var url_parts = urlHelper.parse(url, true);
   return url_parts.query;
 }
-*/
+
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
-
+  
 app.route('/profile')
   .get(function(req, res) {
-    
-      db.cypher({
-      query: 'MATCH (u:User) RETURN u',
-   
-      }, function (err, results) {
-           if (err) 
-              throw err;
-    
-      var result = results[0];
-      if (!result) {
-        console.log('No user found.');
-      } else {
-        var user = result['u'];
-         
-        console.log(results); 
-        var arr = [];
-        var obj;
-        for(var i in results){
-          obj = {};
-          obj.firstName = results[i]['u'].properties.firstName;
-          obj.lastName = results[i]['u'].properties.lastName;
-          obj.age = results[i]['u'].properties.age;
-          obj.email = results[i]['u'].properties.email;
-          obj.gender = results[i]['u'].properties.gender;
-          obj.userID = results[i]['u'].properties.userID;
-          arr.push(obj)
-    }
-   
-    res.send(arr)
-   
-    }
-          }); 
+    var query = getQueryObj(req.url);
+    console.dir("GET received query " + JSON.stringify(query.email));
+    var queryDb = _this.profileModel().findOne({ 'email': query.email});
+    queryDb.exec(function (err, obj) {
+      if (err) return console.error(err);
+      console.log("POST profile : " + obj);
+      res.send(obj); 
+    });
   })
   .post(function(req, res) {
-    var userObject = {
-    "firstName": $("#user-firstName").val(),
-    "lastName": $("#user-lastName").val(),
-    "age": $("#user-age").val(),
-    "email": $("#user-email").val(),
-    "gender": $("#user-gender").val(),
-    "userID": $("#user-userID").val(),
-
-    };
-    var restServerURL = "http://localhost:7474/db/data";
-    $.ajax({
-      type: "POST",
-      url: restServerURL + "/profile",
-      data: JSON.stringify(userObject),
-      dataType: "json",
-      contentType: "application/json",
-      success: function( data, xhr, textStatus ) {
-          console.log(data);
-      },
-      error: function( xhr ) {
-          window.console && console.log( xhr );
-      },
-      complete: function() {
-          alert("Address of new node: " + data.self);
-      }
-  });
-
-
-    
+    var query = getQueryObj(req.url);
+    if(query.isRegister === 'true'){
+      console.log("received query " + req.body);
+      var newProfile = new _this.profileModel()({  "email" : req.body.email,
+                                                       "name" : req.body.name,
+                                                       "password" : req.body.password });
+      newProfile.save(function (err, obj) {
+        if (err) return console.error(err);
+        console.log("GET after existing user profile : " + obj);
+        res.send(obj);
+      });
+    }else{
+      console.log(req.body);
+      var queryDb = _this.profileModel().findOne({ 'email': req.body.email,
+                                                       'password' : req.body.password});
+      queryDb.exec(function (err, obj) {
+        if (err) return console.error(err);
+        console.log("POST profile : " + obj);
+        res.send(obj);
+      });
+    }
   })
-
   .put(function(req, res) {
-    
-
-
-
-
-
+    // to be done
   })
   .delete(function(req, res) {
-    var userObject = {
-    "firstName": $("#user-firstName").val(),
-    "lastName": $("#user-lastName").val(),
-    "age": $("#user-age").val(),
-    "email": $("#user-email").val(),
-    "gender": $("#user-gender").val(),
-    "userID": $("#user-userID").val(),
-
-    };
-    var restServerURL = "http://localhost:7474/db/data";
-    $.ajax({
-      type: "DELETE",
-      url: restServerURL + "/profile",
-      data: JSON.stringify(userObject),
-      dataType: "json",
-      contentType: "application/json",
-      success: function( data, xhr, textStatus ) {
-          console.log(data);
-      },
-      error: function( xhr ) {
-          window.console && console.log( xhr );
-      },
-      complete: function() {
-          alert("Address of new node: " + data.self);
-      }
-  });    
-  })
-
+    // to be done
+  });
   
-
-app.route('/events')
-  .get(function(req, res) {
-          db.cypher({
-          query: 'MATCH (e:Event) RETURN e',
-   
-      }, function (err, results) {
-           if (err) 
-              throw err;
-    
-      var result = results[0];
-      if (!result) {
-        console.log('No event found.');
-      } else {
-        var user = result['e'];
-         
-        console.log(results); 
-        var arr = [];
-        var obj;
-        for(var i in results){
-          obj = {};
-          obj.name = results[i]['e'].properties.name;
-          obj.city = results[i]['e'].properties.city;
-          obj.placeDescription = results[i]['e'].properties.placeDescription;
-          obj.hour = results[i]['e'].properties.hour;
-          obj.minutes = results[i]['e'].properties.minutes;
-          obj.day = results[i]['e'].properties.day;
-          obj.month = results[i]['e'].properties.month;
-          obj.year = results[i]['e'].properties.year;
-          obj.eventID = results[i]['e'].properties.eventID;
-          arr.push(obj)
-    }
-   
-    res.send(arr)
-   
-    }
- }); 
-  })
-  .post(function(req, res) {
-    
-  })
-  .put(function(req, res) {
-    // to be done
-  })
-  .delete(function(req, res) {
-    // to be done
-  });
-
-
-var server = app.listen(8080, function () {
+var server = app.listen(8082, function () {
 
   var host = server.address().address;
   var port = server.address().port;
