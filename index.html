@@ -19,17 +19,24 @@
     <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="/bower_components/iron-icons/social-icons.html">
+    <link rel="import" href="/bower_components/iron-icons/image-icons.html">
     <link rel="import" href="/bower_components/iron-icon/iron-icon.html">
     <link rel="import" href="/bower_components/paper-drawer-panel/paper-drawer-panel.html">
     <link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+    <link rel="import" href="/bower_components/paper-button/paper-button.html">
     <link rel="import" href="/bower_components/paper-behaviors/paper-inky-focus-behavior.html">
     <link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
     <link rel="import" href="/bower_components/paper-item/paper-item.html">
-    <link rel="import" href="/bower_components/paper-item/paper-icon-item.html">
+    <link rel="import" href="/bower_components/paper-item/paper-icon-item.html">  
+    <link rel="import" href="/bower_components/marked-element/marked-element.html">
     
      <link rel="import" href="/assets/apps/drawer/drawer-toolbar.html">
      <link rel="import" href="/assets/apps/drawer/select-options.html">
      <link rel="import" href="/assets/apps/drawer/drawer-list.html">
+     <link rel="import" href="/assets/apps/app/main-toolbar.html">
+     <link rel="import" href="/assets/apps/app/apiDashboard/main-app.html">
+     
+     
      <link rel="import" href="/assets/apps/fabs/add-api.html">
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
      
@@ -44,9 +51,8 @@
         </div>
       </paper-header-panel>
       <paper-header-panel mode="seamed" main>
-        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-        <div> Main content... </div>
-        
+        <main-toolbar></main-toolbar>
+        <main-app></main-app>
       </paper-header-panel>
     </paper-drawer-panel>
     
