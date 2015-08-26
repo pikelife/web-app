@@ -1,0 +1,105 @@
+<dom-module id="order-app">
+  
+  <style>
+    :host .main-container {
+     margin: 0 auto;
+     padding: 40px;
+     padding-top: 16px;
+    }
+    
+    :host .product-custom{
+      height: 80%;
+      width: 66%;
+      background-color: #000;
+    }
+    
+    :host .product-feature {
+      height: 80%; 
+      width: 33%;
+      overflow: auto;
+    }
+    
+    :host .header{
+      font-size: 36px;
+      text-transform: capitalize;
+      border-bottom: 2px solid #E0E0E0;
+      text-align: center;
+      padding-bottom: 24px;
+    }
+    
+    :host .list-item{
+      width: 100%;
+      padding: 16px;
+      border-bottom: 2px solid #E0E0E0;
+    }
+    
+    :host .list-img{
+      width: 72px;
+      height: 72px;
+      background-color: #000;
+    }
+    
+    :host .list-info{
+      padding: 0 16px;
+    }
+    
+    :host .list-header{
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+    
+    :host .list-subHeader{
+      color: gray;
+    }
+    
+    :host .list-container{
+      width: 80%;
+    }
+  </style>
+     
+  <template>
+    <div class="main-container horizontal layout">
+      <div class="product-custom">
+        
+      </div>
+      <div class="product-feature">
+        <div class="header"> Accessories </div>
+        <div class="list-container flex">
+          <div class="list-item horizontal layout">
+            <div class="list-img"></div>
+            <div class="list-info flex">
+              <div class="list-header">header</div>
+              <div class="list-subHeader">subheader</div>
+            </div>
+          </div>
+          <div class="list-item horizontal layout">
+            <div class="list-img"></div>
+            <div class="list-info flex">
+              <div class="list-header">header</div>
+              <div class="list-subHeader">subheader</div>
+            </div>
+          </div>
+          <div class="list-item horizontal layout">
+            <div class="list-img"></div>
+            <div class="list-info flex">
+              <div class="list-header">header</div>
+              <div class="list-subHeader">subheader</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+  </template>
+	  
+	<script>
+	
+	  Polymer({
+	    is: "order-app",
+	    
+    });
+    
+	</script>
+	
+</dom-module>
