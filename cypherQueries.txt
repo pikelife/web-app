@@ -39,7 +39,7 @@ CREATE (event1: Event{
 // user1 publishes event1
 
 MATCH (u:User),(e: Event)
-WHERE u.userID = 1 AND e.eventID = 2
+WHERE u.userID = 1 AND e.eventID = 1
 CREATE (u)-[r:HAS_EVENT]->(e)
 RETURN r
 
