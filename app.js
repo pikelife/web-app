@@ -41,8 +41,8 @@ db.once('open', function (callback) {
   
 var app = express();
 
-//app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-//app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/apps',  express.static(__dirname + '/apps'));
+app.use('/assets', express.static(__dirname + '/assets'));
 
 
 app.use(bodyParser.urlencoded({
@@ -59,7 +59,11 @@ function getQueryObj(url){
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
-  
+
+app.get('/profile', function (req, res) {
+  res.sendFile(__dirname + '/page-profile.html');
+});
+
 app.route('/profile')
   .get(function(req, res) {
     var query = getQueryObj(req.url);

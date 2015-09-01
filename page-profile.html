@@ -1,0 +1,596 @@
+<!--
+  Name: Con - Admin Dashboard with Material Design
+  Version: 2.3.2
+  Author: nK
+  Website: http://nkdev.info
+  Support: http://nk.ticksy.com
+  Purchase: http://themeforest.net/item/con-material-admin-dashboard-template/10621512?ref=_nK
+  License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+  Copyright 2015.
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="lt-ie7"> <![endif]-->
+<!--[if IE 7]>     <html class="lt-ie8"> <![endif]-->
+<!--[if IE 8]>     <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html>
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Con - Admin Dashboard with Material Design</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
+
+  <link rel="icon" type="image/png" href="assets/_con/images/icon.png">
+
+  <!-- nanoScroller -->
+  <link rel="stylesheet" type="text/css" href="assets/nanoScroller/nanoscroller.css" />
+
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css" />
+
+  <!-- Material Design Icons -->
+  <link rel="stylesheet" type="text/css" href="assets/material-design-icons/css/material-design-icons.min.css" />
+
+  <!-- IonIcons -->
+  <link rel="stylesheet" type="text/css" href="assets/ionicons/css/ionicons.min.css" />
+
+  <!-- WeatherIcons -->
+  <link rel="stylesheet" type="text/css" href="assets/weatherIcons/css/weather-icons.min.css" />
+
+  <!-- Google Prettify -->
+  <link rel="stylesheet" type="text/css" href="assets/google-code-prettify/prettify.css" />
+  <!-- Main -->
+  <link rel="stylesheet" type="text/css" href="assets/_con/css/_con.min.css" />
+  
+  <link rel="stylesheet" type="text/css" href="apps/main/style.css" />
+
+  <!--[if lt IE 9]>
+    <script src="assets/html5shiv/html5shiv.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+
+  <!--
+  Top Navbar
+    Options:
+      .navbar-dark - dark color scheme
+      .navbar-static - static navbar
+      .navbar-under - under sidebar
+-->
+  <nav class="navbar-top">
+    <div class="nav-wrapper">
+
+      <!-- Sidebar toggle -->
+      <a href="#" class="yay-toggle">
+        <div class="burg1"></div>
+        <div class="burg2"></div>
+        <div class="burg3"></div>
+      </a>
+      <!-- Sidebar toggle -->
+
+      <!-- Logo -->
+      <a href="#!" class="brand-logo">
+        <img src="apps/main/img/logo.png" alt="Con">
+      </a>
+      <!-- /Logo -->
+
+      <!-- Menu -->
+      <ul>
+        <li class="user">
+          <a class="dropdown-button" href="#!" data-activates="user-dropdown">
+            <img src="assets/_con/images/user.jpg" alt="John Doe" class="circle">John Doe<i class="mdi-navigation-expand-more right"></i>
+          </a>
+
+          <ul id="user-dropdown" class="dropdown-content">
+            <li><a href="/profile"><i class="fa fa-user"></i> Profile</a>
+            </li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!-- /Menu -->
+
+    </div>
+  </nav>
+  <!-- /Top Navbar -->
+
+
+  <!--
+  Yay Sidebar
+  Options [you can use all of theme classnames]:
+    .yay-hide-to-small         - no hide menu, just set it small with big icons
+    .yay-static                - stop using fixed sidebar (will scroll with content)
+    .yay-gestures              - to show and hide menu using gesture swipes
+    .yay-light                 - light color scheme
+    .yay-hide-on-content-click - hide menu on content click
+
+  Effects [you can use one of these classnames]:
+    .yay-overlay  - overlay content
+    .yay-push     - push content to right
+    .yay-shrink   - shrink content width
+-->
+    <aside class="yaybar yay-shrink yay-hide-to-small yay-gestures">
+
+    <div class="top">
+      <div>
+        <!-- Sidebar toggle -->
+        <a href="#" class="yay-toggle">
+          <div class="burg1"></div>
+          <div class="burg2"></div>
+          <div class="burg3"></div>
+        </a>
+        <!-- Sidebar toggle -->
+
+        <!-- Logo -->
+        <a href="#!" class="brand-logo">
+          <img src="assets/_con/images/logo-white.png" alt="Con">
+        </a>
+        <!-- /Logo -->
+      </div>
+    </div>
+
+
+    <div class="nano">
+      <div class="nano-content">
+
+        <ul>
+
+          <li class="label">Projects</li>
+
+          <li>
+            <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-action-dns"></i> Apps <span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+            <ul>
+              <li>
+                <a class="yay-sub-toggle waves-effect waves-blue" href="/">one new api</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-content-add"></i> Add a new project </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </aside>
+  <!-- /Yay Sidebar -->
+
+
+  <!-- Main Content -->
+  <section class="content-wrap">
+
+
+    <!-- Breadcrumb -->
+    <div class="page-title">
+
+      <div class="row">
+        <div class="col s10 m10 l10">
+          <h1>Profile</h1>
+        </div>
+        <div class="col s2 m2 l2 right-align">
+          <a href="#!" class="btn grey lighten-3 grey-text z-depth-0 waves-effect"><i class="mdi-editor-mode-edit"></i></a>
+        </div>
+      </div>
+
+    </div>
+    <!-- /Breadcrumb -->
+
+    <div class="card-panel">
+      <table class="profile-info">
+        <tbody>
+          <tr>
+            <td class="photo">
+              <img src="assets/_con/images/user.jpg" alt="Jogh Doe">
+            </td>
+            <td>
+              <!-- Name -->
+              <h3>John Doe</h3>
+              <!-- /Name -->
+
+              <!-- Status Message -->
+              <span>Cras vel risus ac massa varius tempus. Suspendisse sed risus at mi egestas rutrum nec et velit.</span>
+              <!-- /Status Message -->
+
+              <!-- /Contact Buttons -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+
+      <div class="col s12 l12">
+
+        <!-- Skills -->
+        <div class="card profile-skills">
+          <div class="title">
+            <h5><i class="mdi-action-dns"></i> Projects</h5>
+          </div>
+          <div class="content">
+            <a href="#!" class="skill">JavaScript</a>
+            <a href="#!" class="skill">CSS3</a>
+            <a href="#!" class="skill">HTML5</a>
+            <a href="#!" class="skill">jQuery</a>
+            <a href="#!" class="skill">AngularJS</a>
+            <a href="#!" class="skill">Bootstrap</a>
+            <a href="#!" class="skill">PHP</a>
+            <a href="#!" class="skill">MySQL</a>
+          </div>
+        </div>
+        <!-- /Skills -->
+      </div>
+    </div>
+
+  </section>
+  <!-- /Main Content -->
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <div class="layer-overlay"></div>
+    <div class="layer-content">
+      <form action="#!">
+        <!-- Header -->
+        <a class="search-bar-toggle grey-text text-darken-2" href="#!"><i class="mdi-navigation-close"></i></a>
+
+        <!-- Search Input -->
+        <div class="input-field">
+          <i class="mdi-action-search prefix"></i>
+          <input type="text" name="con-search" placeholder="Search...">
+        </div>
+
+        <!-- Search Results -->
+        <div class="search-results">
+
+          <div class="row">
+            <div class="col s12 l4">
+              <h4>Users</h4>
+
+              <div class="each-result">
+                <img src="assets/_con/images/user2.jpg" alt="Felecia Castro" class="circle photo">
+                <div class="title">Felecia Castro</div>
+                <div class="label">Content Manager</div>
+              </div>
+
+              <div class="each-result">
+                <img src="assets/_con/images/user3.jpg" alt="Max Brooks" class="circle photo">
+                <div class="title">Max Brooks</div>
+                <div class="label">Programmer</div>
+              </div>
+
+              <div class="each-result">
+                <img src="assets/_con/images/user4.jpg" alt="Patsy Griffin" class="circle photo">
+                <div class="title">Patsy Griffin</div>
+                <div class="label">Support</div>
+              </div>
+
+              <div class="each-result">
+                <img src="assets/_con/images/user6.jpg" alt="Vernon Garrett" class="circle photo">
+                <div class="title">Vernon Garrett</div>
+                <div class="label">Photographer</div>
+              </div>
+            </div>
+            <div class="col s12 l4">
+              <h4>Articles</h4>
+
+              <div class="each-result">
+                <div class="icon circle blue white-text">MD</div>
+                <div class="title">Material Design</div>
+                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
+              </div>
+
+              <div class="each-result">
+                <div class="icon circle teal white-text">
+                  <i class="fa fa-dashboard"></i>
+                </div>
+                <div class="title">Admin Dashboard</div>
+                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
+              </div>
+
+              <div class="each-result">
+                <div class="icon circle orange white-text">RD</div>
+                <div class="title">Responsive Design</div>
+                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
+              </div>
+
+              <div class="each-result">
+                <div class="icon circle red white-text">
+                  <i class="fa fa-tablet"></i>
+                </div>
+                <div class="title">Mobile First</div>
+                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
+              </div>
+            </div>
+            <div class="col s12 l4">
+              <h4>Posts</h4>
+
+              <div class="no-result">No results were found ;(</div>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <!-- /Search Bar -->
+
+
+
+  <!--
+  Chat
+    .chat-light - light color scheme
+-->
+  <div class="chat">
+    <div class="layer-overlay"></div>
+
+    <div class="layer-content">
+
+      <!-- Contacts -->
+      <div class="contacts">
+        <!-- Top Bar -->
+        <div class="topbar">
+          <a href="#!" class="text">Chat</a>
+          <a href="#!" class="chat-toggle"><i class="mdi-navigation-close"></i></a>
+        </div>
+        <!-- /Top Bar -->
+
+        <div class="nano">
+          <div class="nano-content">
+
+            <span class="label">Online</span>
+
+            <div class="user">
+              <img src="assets/_con/images/user2.jpg" alt="Felecia Castro" class="circle photo">
+
+              <div class="name">Felecia Castro</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="green-text fa fa-circle"></i>
+              </div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user3.jpg" alt="Max Brooks" class="circle photo">
+
+              <div class="name">Max Brooks</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="green-text fa fa-circle"></i>
+              </div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user4.jpg" alt="Patsy Griffin" class="circle photo">
+
+              <div class="name">Patsy Griffin</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="green-text fa fa-circle"></i>
+              </div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user5.jpg" alt="Chloe Morgan" class="circle photo">
+
+              <div class="name">Chloe Morgan</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="green-text fa fa-circle"></i>
+              </div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user6.jpg" alt="Vernon Garrett" class="circle photo">
+
+              <div class="name">Vernon Garrett</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="yellow-text fa fa-circle"></i>
+              </div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user7.jpg" alt="Greg Mcdonalid" class="circle photo">
+
+              <div class="name">Greg Mcdonalid</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="yellow-text fa fa-circle"></i>
+              </div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user8.jpg" alt="Christian Jackson" class="circle photo">
+
+              <div class="name">Christian Jackson</div>
+              <div class="status">Lorem status</div>
+
+              <div class="online"><i class="yellow-text fa fa-circle"></i>
+              </div>
+            </div>
+
+
+            <span class="label">Offline</span>
+
+            <div class="user">
+              <img src="assets/_con/images/user9.jpg" alt="Willie Kelly" class="circle photo">
+
+              <div class="name">Willie Kelly</div>
+              <div class="status">Lorem status</div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user10.jpg" alt="Jenny Phillips" class="circle photo">
+
+              <div class="name">Jenny Phillips</div>
+              <div class="status">Lorem status</div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user11.jpg" alt="Darren Cunningham" class="circle photo">
+
+              <div class="name">Darren Cunningham</div>
+              <div class="status">Lorem status</div>
+            </div>
+
+            <div class="user">
+              <img src="assets/_con/images/user12.jpg" alt="Sandra Cole" class="circle photo">
+
+              <div class="name">Sandra Cole</div>
+              <div class="status">Lorem status</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /Contacts -->
+
+      <!-- Messages -->
+      <div class="messages">
+
+        <!-- Top Bar with back link -->
+        <div class="topbar">
+          <a href="#!" class="chat-toggle"><i class="mdi-navigation-close"></i></a>
+          <a href="#!" class="chat-back"><i class="mdi-hardware-keyboard-arrow-left"></i> Back</a>
+        </div>
+        <!-- /Top Bar with back link -->
+
+        <!-- All messages list -->
+        <div class="list">
+          <div class="nano scroll-bottom">
+            <div class="nano-content">
+
+              <div class="date">Monday, Feb 23, 8:23 pm</div>
+
+              <div class="from-me">
+                Hi, Felicia.
+                <br>How are you?
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-them">
+                <img src="assets/_con/images/user2.jpg" alt="John Doe" class="circle photo">Hi! I am good!
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-me">
+                Glad to see you :)
+                <br>This long text is intended to show how the chat will display it.
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-them">
+                <img src="assets/_con/images/user2.jpg" alt="John Doe" class="circle photo">Also, we will send the longest word to show how it will fit in the chat window: <strong>Pneumonoultramicroscopicsilicovolcanoconiosis</strong>
+              </div>
+
+              <div class="date">Friday, Mar 10, 5:07 pm</div>
+
+              <div class="from-me">
+                Hi again!
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-them">
+                <img src="assets/_con/images/user2.jpg" alt="John Doe" class="circle photo">Hi! Glad to see you.
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-me">
+                I want to add you in my Facebook.
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-me">
+                Can you give me your page?
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-them">
+                <img src="assets/_con/images/user2.jpg" alt="John Doe" class="circle photo">I do not use Facebook. But you can follow me in Twitter.
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-me">
+                It's good idea!
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="from-them">
+                <img src="assets/_con/images/user2.jpg" alt="John Doe" class="circle photo">You can find me here - <a href="https://twitter.com/nkdevv">https://twitter.com/nkdevv</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- /All messages list -->
+
+        <!-- Send message -->
+        <div class="send">
+          <form action="#!">
+            <div class="input-field">
+              <input id="chat-message" type="text" name="chat-message">
+            </div>
+
+            <button class="btn waves-effect z-depth-0"><i class="mdi-content-send"></i>
+            </button>
+          </form>
+        </div>
+        <!-- /Send message -->
+
+      </div>
+      <!-- /Messages -->
+    </div>
+
+  </div>
+  <!-- /Chat -->
+
+
+
+  <footer>&copy; 2015 <strong>Pikelife</strong>. All rights reserved.
+  </footer>
+  
+  <!-- jQuery -->
+  <script type="text/javascript" src="assets/jquery/jquery.min.js"></script>
+
+  <!-- jQuery RAF (improved animation performance) -->
+  <script type="text/javascript" src="assets/jqueryRAF/jquery.requestAnimationFrame.min.js"></script>
+
+  <!-- nanoScroller -->
+  <script type="text/javascript" src="assets/nanoScroller/jquery.nanoscroller.min.js"></script>
+
+  <!-- Materialize -->
+  <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+
+  <!-- Sortable -->
+  <script type="text/javascript" src="assets/sortable/Sortable.min.js"></script>
+
+  <!-- Main -->
+  <script type="text/javascript" src="assets/_con/js/_con.min.js"></script>
+
+
+  <!-- Google Prettify -->
+  <script type="text/javascript" src="assets/google-code-prettify/prettify.js"></script>
+</body>
+
+</html>
