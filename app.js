@@ -186,7 +186,7 @@ app.route('/profile')
     });
   });
   
-var server = app.listen(8082, function () {
+var server = app.listen(8080, function () {
 
   var host = server.address().address;
   var port = server.address().port;
