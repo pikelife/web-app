@@ -60,9 +60,9 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/profile', function (req, res) {
+/*app.get('/profile', function (req, res) {
   res.sendFile(__dirname + '/page-profile.html');
-});
+});*/
 
 app.route('/profile')
   .get(function(req, res) {
@@ -77,8 +77,7 @@ app.route('/profile')
   })
   .post(function(req, res) {
     var query = getQueryObj(req.url);
-    if(query.isRegister === 'true'){
-      console.log("received query " + req.body);
+  console.log("received query " + req.body);
       var newProfile = new _this.profileModel()({  "email" : req.body.email,
                                                        "name" : req.body.name,
                                                        "password" : req.body.password });
@@ -87,16 +86,6 @@ app.route('/profile')
         console.log("GET after existing user profile : " + obj);
         res.send(obj);
       });
-    }else{
-      console.log(req.body);
-      var queryDb = _this.profileModel().findOne({ 'email': req.body.email,
-                                                       'password' : req.body.password});
-      queryDb.exec(function (err, obj) {
-        if (err) return console.error(err);
-        console.log("POST profile : " + obj);
-        res.send(obj);
-      });
-    }
   })
   .put(function(req, res) {
     	var email = req.body.email;
@@ -109,15 +98,13 @@ app.route('/profile')
     		email: email,
     		name: name,
     		password: password
-		}, function(err, profileEmail){
+		}, function(err, obj){
 			if(err){
 				res.send(" Problem updating the information to the database:"+ err);
 
 			}
 			else{
-				json: function(){
-                               res.json(obj);
-                         }
+				 res.send(obj);
 
 			}
 
@@ -156,34 +143,17 @@ app.route('/profile')
     	*/
   })
   .delete(function(req, res) {
-    
-    mongoose.model('Profile').findByEmail(req.email, function (err, profile) {
-        if (err) {
-            return console.error(err);
-        } else {
-            
-            profile.remove(function (err, profile) {
-                if (err) {
-                    return console.error(err);
-                } else {
-                    //Returning success messages saying it was deleted
-                    console.log('DELETE removing email: ' + profile._email);
-                    res.format({
-                        //HTML returns us back to the main page, or you can create a success page
-                          html: function(){
-                               res.redirect("/profile");
-                         },
-                         //JSON returns the item with the message that is has been deleted
-                        json: function(){
-                               res.json({message : 'deleted',
-                                   item : profile
-                               });
-                         }
-                      });
-                }
-            });
-        }
-    });
+      _this.profileModel().remove({ email: req.email }, function (err, profile) {
+          if (err) {
+              return console.error(err);
+          } else {
+              //Returning success messages saying it was deleted
+              console.log('DELETE removing email: ' + profile._email);
+               res.send({message : 'deleted',
+                         item : profile
+                        });
+          }
+      });
   });
   
 var server = app.listen(8080, function () {
