@@ -95,10 +95,91 @@ app.route('/profile')
     }
   })
   .put(function(req, res) {
-    // to be done
+    	var email = req.body.email;
+    	var name = req.body.name;
+    	var password = req.body.password;
+    	var query = getQueryObj(req.url);
+    	console.dir("GET received query " + JSON.stringify(query.email));
+    	var queryDb = _this.profileModel().findOne({ 'email': query.email});
+    	queryDb.update({
+    		email: email,
+    		name: name,
+    		password: password
+		}, function(err, profileEmail){
+			if(err){
+				res.send(" Problem updating the information to the database:"+ err);
+
+			}
+			else{
+				json: function(){
+                               res.json(obj);
+                         }
+
+			}
+
+
+
+
+		})
+    	/*
+	
+    var email = req.body.email;
+    var name = req.body.name;
+    var password = req.body.password;
+    
+
+        mongoose.model('Profile').findByEmail(req.email, function (err, profile) {
+            //update it
+            profile.update({
+                email : email,
+                name : name,
+                password : password
+                
+            }, function (err, profileEmail) {
+              if (err) {
+                  res.send("There was a problem updating the information to the database: " + err);
+              } 
+              else {
+                      
+                         //JSON responds showing the updated values
+                        json: function(){
+                               res.json(profile);
+                         }
+                      });
+               }
+            })
+    
+    	*/
   })
   .delete(function(req, res) {
-    // to be done
+    
+    mongoose.model('Profile').findByEmail(req.email, function (err, profile) {
+        if (err) {
+            return console.error(err);
+        } else {
+            
+            profile.remove(function (err, profile) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    //Returning success messages saying it was deleted
+                    console.log('DELETE removing email: ' + profile._email);
+                    res.format({
+                        //HTML returns us back to the main page, or you can create a success page
+                          html: function(){
+                               res.redirect("/profile");
+                         },
+                         //JSON returns the item with the message that is has been deleted
+                        json: function(){
+                               res.json({message : 'deleted',
+                                   item : profile
+                               });
+                         }
+                      });
+                }
+            });
+        }
+    });
   });
   
 var server = app.listen(8081, function () {
