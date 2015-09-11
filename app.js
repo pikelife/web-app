@@ -18,6 +18,18 @@ _this.profileModel = function(val){
   return profileModel;
 };
 
+var projectSchema;
+_this.projectSchema = function(val){
+  if(val !== undefined) projectSchema = val;
+  return projectSchema;
+};
+
+var projectModel;
+_this.projectModel = function(val){
+  if(val !== undefined) projectModel = val;
+  return projectModel;
+};
+
 var url = 'mongodb://localhost:27017/polygen';
 mongoose.connect(url);
 
@@ -30,12 +42,22 @@ db.once('open', function (callback) {
   var profileSchema = mongoose.Schema({
     email : String,
     name : String,
-    password : String
+    password : String,
+    projects : Array
   });
   _this.profileSchema(profileSchema);
   
   var Profile = mongoose.model('Profile', profileSchema);
   _this.profileModel(Profile);
+  
+  var projectSchema = mongoose.Schema({
+    name : String,
+    spreedKey : String
+  });
+  _this.projectSchema(projectSchema);
+  
+  var Project = mongoose.model('Project', projectSchema);
+  _this.projectModel(Project);
   
 });
   
@@ -60,15 +82,11 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-/*app.get('/profile', function (req, res) {
-  res.sendFile(__dirname + '/page-profile.html');
-});*/
-
 app.route('/profile')
   .get(function(req, res) {
     var query = getQueryObj(req.url);
-    console.dir("GET received query " + JSON.stringify(query.email));
-    var queryDb = _this.profileModel().findOne({ 'email': query.email});
+    console.dir("GET received query " + JSON.stringify(query.id));
+    var queryDb = _this.profileModel().findOne({ '_id': query.id});
     queryDb.exec(function (err, obj) {
       if (err) return console.error(err);
       console.log("POST profile : " + obj);
@@ -79,8 +97,8 @@ app.route('/profile')
     var query = getQueryObj(req.url);
   console.log("received query " + req.body);
       var newProfile = new _this.profileModel()({  "email" : req.body.email,
-                                                       "name" : req.body.name,
-                                                       "password" : req.body.password });
+                                                   "name" : req.body.name,
+                                                   "password" : req.body.password });
       newProfile.save(function (err, obj) {
         if (err) return console.error(err);
         console.log("GET after existing user profile : " + obj);
@@ -92,13 +110,13 @@ app.route('/profile')
     	var name = req.body.name;
     	var password = req.body.password;
     	var query = getQueryObj(req.url);
-    	console.dir("GET received query " + JSON.stringify(query.email));
-    	var queryDb = _this.profileModel().findOne({ 'email': query.email});
+    	console.dir("GET received query " + JSON.stringify(query.id));
+    	var queryDb = _this.profileModel().findOne({ '_id': query.id});
     	queryDb.update({
     		email: email,
     		name: name,
     		password: password
-		}, function(err, obj){
+		  }, function(err, obj){
 			if(err){
 				res.send(" Problem updating the information to the database:"+ err);
 
@@ -107,43 +125,10 @@ app.route('/profile')
 				 res.send(obj);
 
 			}
-
-
-
-
-		})
-    	/*
-	
-    var email = req.body.email;
-    var name = req.body.name;
-    var password = req.body.password;
-    
-
-        mongoose.model('Profile').findByEmail(req.email, function (err, profile) {
-            //update it
-            profile.update({
-                email : email,
-                name : name,
-                password : password
-                
-            }, function (err, profileEmail) {
-              if (err) {
-                  res.send("There was a problem updating the information to the database: " + err);
-              } 
-              else {
-                      
-                         //JSON responds showing the updated values
-                        json: function(){
-                               res.json(profile);
-                         }
-                      });
-               }
-            })
-    
-    	*/
+		});
   })
   .delete(function(req, res) {
-      _this.profileModel().remove({ email: req.email }, function (err, profile) {
+      _this.profileModel().remove({ '_id': req.id }, function (err, profile) {
           if (err) {
               return console.error(err);
           } else {
@@ -156,7 +141,93 @@ app.route('/profile')
       });
   });
   
-
+app.route('/project')
+  .get(function(req, res) {
+    var query = getQueryObj(req.url);
+    var queryDb = _this.projectModel().findOne({ '_id': query.id});
+    queryDb.exec(function (err, obj) {
+      if (err) return console.error(err);
+      res.send(obj); 
+    });
+  })
+  .post(function(req, res) {
+    var query = getQueryObj(req.url);
+      var newProject = new _this.projectModel()({  "name" : "new project" });
+      newProject.save(function (err, obj) {
+        if (err) return console.error(err);
+        var projectId = obj._id;
+        var queryDb = _this.profileModel().findOne({ '_id': query.id});
+        var profile;
+        queryDb.exec(function (err, obj) {
+          if (err) return console.error(err);
+          profile = obj; 
+          var projects = profile.projects;
+          projects.push(projectId);
+        	queryDb.update({
+         		projects: projects
+    		  }, function(err, obj){
+      			if(err){
+      				res.send(" Problem updating the information to the database:"+ err);
+      	  	}
+  		    });
+        });
+        
+  		  res.send(obj);
+      });
+  })
+  .put(function(req, res) {
+    	var name = req.body.name;
+    	var spreedKey = req.body.spreedKey;
+    	var query = getQueryObj(req.url);
+    	console.dir("GET received query " + JSON.stringify(query.id));
+    	var queryDb = _this.projectModel().findOne({ '_id': query.id});
+    	queryDb.update({
+    		name: name,
+    		spreedKey: spreedKey
+		}, function(err, obj){
+			if(err){
+				res.send(" Problem updating the information to the database:"+ err);
+			}
+			else{
+				 res.send(obj);
+			}
+		});
+  })
+  .delete(function(req, res) { 
+      var query = getQueryObj(req.url);
+      _this.projectModel().remove({ '_id': query.id }, function (err, project) {
+          if (err) {
+              return console.error(err);
+          } else {
+              //Returning success messages saying it was deleted 
+              console.log('DELETE removing project ID: ' + JSON.stringify(project));
+              var queryDb = _this.profileModel().findOne({ '_id': query.usrId});
+              var profile;
+              queryDb.exec(function (err, obj) {
+                if (err) return console.error(err);
+                profile = obj; 
+                var projects = profile.projects;
+                for(var i in projects){
+                  if(projects[i] == query.id){
+                    projects.splice(i, 1);
+                  }
+                }
+                console.log("projects after delete" + JSON.stringify(projects));
+              	queryDb.update({
+               		projects: projects
+          		  }, function(err, obj){
+            			if(err){
+            				res.send(" Problem updating the information to the database:"+ err);
+            	  	}
+        		    });
+              });
+               res.send({message : 'deleted',
+                         item : project
+                        });
+          }
+      });
+  });
+  
 var server = app.listen(8080, function () {
 
   var host = server.address().address;
@@ -165,53 +236,6 @@ var server = app.listen(8080, function () {
   console.log('joinOn app listening at http://%s:%s', host, port);
 
 });
-/* get users */
-
-/* post user */
-/*app.post('/user', function (req, res) {
-  db.cypher({
-    query: 'CREATE (user1: User{
-      firstName: "Idriss",
-  lastName: "Alaoui",
-  age:23,
-  email:"idriss.said.alaoui@pikelife.com",
-  gender: "male",
-  userID:1
-})
-',
-   
-}, function (err, results) {
-    if (err) 
-      throw err;
-    
-    var result = results[0];
-    if (!result) {
-        console.log('No user found.');
-    } else {
-        var user = result['u'];
-         
-        console.log(results); 
-        var arr = [];
-    var obj;
-    for(var i in results){
-      obj = {};
-      obj.firstName = results[i]['u'].properties.firstName;
-      obj.lastName = results[i]['u'].properties.lastName;
-      obj.age = results[i]['u'].properties.age;
-      obj.email = results[i]['u'].properties.email;
-      obj.gender = results[i]['u'].properties.gender;
-      obj.userID = results[i]['u'].properties.userID;
-      arr.push(obj)
-    }
-   
-    res.send(arr)
-   
-    }
-}); 
-});
-
-
-*/
 
 
 

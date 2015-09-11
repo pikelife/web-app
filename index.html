@@ -94,9 +94,6 @@
             </a>
   
             <ul id="user-dropdown" class="dropdown-content">
-              <li><a href="/profile"><i class="fa fa-user"></i> Profile</a> 
-              </li>
-              <li class="divider"></li> 
               <li><a href="#!" ng-click="ProfileCtrl.logout()"><i class="fa fa-sign-out"></i> Logout</a>
               </li>
             </ul>
@@ -146,7 +143,7 @@
     </div>
 
 
-    <div class="nano">
+    <div class="nano" ng-controller="ProjectController as ProjectCtrl">
       <div class="nano-content">
 
         <ul>
@@ -155,14 +152,17 @@
 
           <li>
             <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-action-dns"></i> Apps <span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-            <ul>
-              <li>
-                <a class="yay-sub-toggle waves-effect waves-blue" href="/">one new api</a> 
+            <ul> 
+              <li ng-repeat="project in ProjectCtrl.ProjectService.projects().v">
+                <a class="yay-sub-toggle waves-effect waves-blue" ng-click="ProjectCtrl.showProject(project.id)">{{project.name}}</a> 
+              </li>
+              <li ng-hide="ProjectCtrl.ProjectService.projects().v">
+                <a class="yay-sub-toggle">No project available</a> 
               </li>
             </ul>
           </li>
           <li>
-            <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-content-add"></i> Add a new project </a>
+            <a class="yay-sub-toggle waves-effect waves-blue"  ng-click="ProjectCtrl.addProject()"><i class="mdi-content-add"></i> Add a new project </a>
           </li>
         </ul>
 
@@ -173,228 +173,233 @@
 
 
   <!-- Main Content -->
-  <section class="content-wrap">
+  <section class="content-wrap" ng-controller="ProjectController as ProjectCtrl">
 
-
-    <!-- Breadcrumb -->
-    <div class="page-title">
-
-      <div class="row">
-        <div class="col s6 m8 l10">  
-          <h1>API name</h1>
-        </div>
-        <div class="col s3 m2 l1 right-align">
-          <a href="#!" class="btn green lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-content-save"></i></a>
-        </div>
-        <div class="col s3 m2 l1 right-align">
-          <a href="#!" class="btn red lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-action-delete"></i></a>
-        </div>
-      </div>
-    </div>
-    <!-- /Breadcrumb -->
-
-    <div class="card">
-      <div class="title">
-        <h5>Your spreadsheet</h5>
-        <a class="minimize" href="#">
-          <i class="mdi-navigation-expand-less"></i>
-        </a>
-      </div>
-      <div class="content spreadsheet-link"><a href="#" target="_blank">link</a></div>
-    </div>
+    <div ng-show="ProjectCtrl.selectedProject()">
+      <!-- Breadcrumb -->
+      <div class="page-title">
   
-    <div class="card">
-      <div class="title">
-        <h5>Project Link</h5>
-        <a class="minimize" href="#">
-          <i class="mdi-navigation-expand-less"></i>
-        </a>
+        <div class="row">
+          <div class="col s6 m8 l10">  
+            <h1>API name</h1>
+          </div>
+          <div class="col s3 m2 l1 right-align">
+            <a href="#!" class="btn green lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-content-save"></i></a>
+          </div>
+          <div class="col s3 m2 l1 right-align">
+            <a href="#!" class="btn red lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-action-delete"></i></a>
+          </div>
+        </div>
       </div>
-      <div class="content spreadsheet-link"><a href="#" target="_blank">link</a></div>
-    </div>
+      <!-- /Breadcrumb -->
+  
+      <div class="card">
+        <div class="title">
+          <h5>Your spreadsheet</h5>
+          <a class="minimize" href="#">
+            <i class="mdi-navigation-expand-less"></i>
+          </a>
+        </div>
+        <div class="content spreadsheet-link"><a href="#" target="_blank">link</a></div>
+      </div>
     
-    <div class="row">
-        <div class="col s12">
-          <ul class="z-depth-1 tabs">
-            <li class="tab col s3"><a class="active" href="#test1">GET</a></li>
-            <li class="tab col s3"><a href="#test2">POST</a></li>
-            <li class="tab col s3"><a href="#test3">PUT</a></li>
-            <li class="tab col s3"><a href="#test4">DELETE</a></li>
-          </ul>
+      <div class="card">
+        <div class="title">
+          <h5>Project Link</h5>
+          <a class="minimize" href="#">
+            <i class="mdi-navigation-expand-less"></i>
+          </a>
         </div>
-        <div id="test1" class="col s12">
-          <div class="card">
-            <div class="title">
-              <h5>Url Parameters</h5>
-            </div>
-            <div class="content">
-              <div class="row">
-                <div class="col s6 m6 l6">    
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Key</label>
-                  </div>
-                </div>
-                <div class="col s6 m6 l6">
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Value</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-
-          <div class="card-panel">
-            <div class="row">
-              <div class="col s12 m7 l9">    
-                <h4>Request result</h4>
-              </div>
-              <div class="col s12 m5 l3">
-                <button class="btn" type="submit" name="action">
-                  Send request <i class="mdi-content-send right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="test2" class="col s12">
-          
-          <div class="card">
-            <div class="title">
-              <h5>Body</h5>
-            </div>
-            <div class="content">
-              <div class="row">
-                <div class="col s6 m6 l6">    
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Key</label>
-                  </div>
-                </div>
-                <div class="col s6 m6 l6">
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Value</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-
-          <div class="card-panel">
-            <div class="row">
-              <div class="col s12 m7 l9">    
-                <h4>Request result</h4>
-              </div>
-              <div class="col s12 m5 l3">
-                <button class="btn" type="submit" name="action">
-                  Send request <i class="mdi-content-send right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="test3" class="col s12">
-          <div class="card">
-            <div class="title">
-              <h5>Url Parameters</h5>
-            </div>
-            <div class="content">
-              <div class="row">
-                <div class="col s6 m6 l6">    
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Key</label>
-                  </div>
-                </div>
-                <div class="col s6 m6 l6">
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Value</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="title">
-              <h5>Body</h5>
-            </div>
-            <div class="content">
-              <div class="row">
-                <div class="col s6 m6 l6">    
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Key</label>
-                  </div>
-                </div>
-                <div class="col s6 m6 l6">
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Value</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-
-          <div class="card-panel">
-            <div class="row">
-              <div class="col s12 m7 l9">    
-                <h4>Request result</h4>
-              </div>
-              <div class="col s12 m5 l3">
-                <button class="btn" type="submit" name="action">
-                  Send request <i class="mdi-content-send right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="test4" class="col s12">
-          <div class="card">
-            <div class="title">
-              <h5>Url Parameters</h5>
-            </div>
-            <div class="content">
-              <div class="row">
-                <div class="col s6 m6 l6">    
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Key</label>
-                  </div>
-                </div>
-                <div class="col s6 m6 l6">
-                  <div class="input-field">
-                    <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                    <label for="input_text">Value</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-
-          <div class="card-panel">
-            <div class="row">
-              <div class="col s12 m7 l9">    
-                <h4>Request result</h4>
-              </div>
-              <div class="col s12 m5 l3">
-                <button class="btn" type="submit" name="action">
-                  Send request <i class="mdi-content-send right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="content spreadsheet-link"><a href="#" target="_blank">link</a></div>
       </div>
-
+      
+      <div class="row">
+          <div class="col s12">
+            <ul class="z-depth-1 tabs">
+              <li class="tab col s3"><a class="active" href="#test1">GET</a></li>
+              <li class="tab col s3"><a href="#test2">POST</a></li>
+              <li class="tab col s3"><a href="#test3">PUT</a></li>
+              <li class="tab col s3"><a href="#test4">DELETE</a></li>
+            </ul>
+          </div>
+          <div id="test1" class="col s12">
+            <div class="card">
+              <div class="title">
+                <h5>Url Parameters</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s6 m6 l6">    
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Key</label>
+                    </div>
+                  </div>
+                  <div class="col s6 m6 l6">
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Value</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">
+              <div class="row">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test2" class="col s12">
+            
+            <div class="card">
+              <div class="title">
+                <h5>Body</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s6 m6 l6">    
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Key</label>
+                    </div>
+                  </div>
+                  <div class="col s6 m6 l6">
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Value</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">
+              <div class="row">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test3" class="col s12">
+            <div class="card">
+              <div class="title">
+                <h5>Url Parameters</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s6 m6 l6">    
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Key</label>
+                    </div>
+                  </div>
+                  <div class="col s6 m6 l6">
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Value</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="title">
+                <h5>Body</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s6 m6 l6">    
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Key</label>
+                    </div>
+                  </div>
+                  <div class="col s6 m6 l6">
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Value</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">
+              <div class="row">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test4" class="col s12">
+            <div class="card">
+              <div class="title">
+                <h5>Url Parameters</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s6 m6 l6">    
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Key</label>
+                    </div>
+                  </div>
+                  <div class="col s6 m6 l6">
+                    <div class="input-field">
+                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
+                      <label for="input_text">Value</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">
+              <div class="row">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+    
+    <div ng-hide="ProjectCtrl.selectedProject()">
+      no project selected
+    </div>
   </section>
   <!-- /Main Content -->
   
@@ -491,6 +496,9 @@
   <script type="text/javascript" src="apps/profile/factory.js"></script>
   <script type="text/javascript" src="apps/profile/app.js"></script>
   
+  <!-- project apps -->
+  <script type="text/javascript" src="apps/project/factory.js"></script>
+  <script type="text/javascript" src="apps/project/app.js"></script>
   
   <!-- jQuery -->
   <script type="text/javascript" src="assets/jquery/jquery.min.js"></script>
