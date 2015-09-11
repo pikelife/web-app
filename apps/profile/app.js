@@ -1,7 +1,9 @@
-pikelife.controller('ProfileController', function($timeout, ProfileService, PikelifeService) {
+pikelife.controller('ProfileController', function($timeout, ProfileService, ProjectService, PikelifeService) {
 
   var profileCtrl = this; 
   profileCtrl.ProfileService = ProfileService;
+  
+  var usrId= "55f24a34b418e4a2308e4024";
   
   var authProfile = {};
   
@@ -11,7 +13,7 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Pike
   };
   
   profileCtrl.login = function(){
-    PikelifeService.get('profile', 'email='+profileCtrl.authProfile().email);
+    PikelifeService.get('profile', 'email='+profileCtrl.authProfile().email, null, profileCtrl.getSuccess);
   };
   
   profileCtrl.logout = function(){
@@ -32,11 +34,9 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Pike
   
   profileCtrl.getSuccess = function(data){
     if(data){
-      if(data.password === profileCtrl.authProfile().password){
-        ProfileService.profile(data);
-        ProfileService.isLogged(true);
-        var test;
-      }
+      ProfileService.profile(data); 
+      ProjectService.getAllProjects(data._id);
+      ProfileService.isLogged(true);
     }
   };
   
@@ -47,7 +47,5 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Pike
     }
   };
   
-  PikelifeService.getSuccess = profileCtrl.getSuccess;
-  PikelifeService.postSuccess = profileCtrl.postSuccess;
-
+  PikelifeService.get('profile', 'id='+usrId, null, profileCtrl.getSuccess);
 });

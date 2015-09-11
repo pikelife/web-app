@@ -82,6 +82,30 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/projectsAll', function (req, res) {
+  var query = getQueryObj(req.url);
+  var queryDb = _this.profileModel().findOne({ '_id': query.id});
+  queryDb.exec(function (err, obj) {
+    if (err) return console.error(err);
+    console.log("POST profile : " + obj);
+    var projectsArrId = obj.projects;
+    var queryDb = _this.projectModel().find();
+    queryDb.exec(function (err, obj) {
+              var result = [];
+              if (err) return console.error(err);
+                for(var i in obj){
+                  for(var j = 0 ; j < projectsArrId.length ; j++){  
+                    console.log(JSON.stringify(obj[i]._id) == JSON.stringify(projectsArrId[j]));
+                    if(JSON.stringify(obj[i]._id) == JSON.stringify(projectsArrId[j])){ 
+                      result.push(obj[i]);
+                    }
+                  } 
+                } 
+                res.send(result);
+              });  
+  });
+});
+
 app.route('/profile')
   .get(function(req, res) {
     var query = getQueryObj(req.url);
@@ -206,20 +230,23 @@ app.route('/project')
               queryDb.exec(function (err, obj) {
                 if (err) return console.error(err);
                 profile = obj; 
-                var projects = profile.projects;
-                for(var i in projects){
-                  if(projects[i] == query.id){
-                    projects.splice(i, 1);
+                console.log(obj);
+                if(profile){
+                  var projects = profile.projects;
+                  for(var i in projects){
+                    if(projects[i] == query.id){
+                      projects.splice(i, 1);
+                    }
                   }
+                  console.log("projects after delete" + JSON.stringify(projects));
+                	queryDb.update({
+                 		projects: projects
+            		  }, function(err, obj){
+              			if(err){
+              				res.send(" Problem updating the information to the database:"+ err);
+              	  	}
+          		    });
                 }
-                console.log("projects after delete" + JSON.stringify(projects));
-              	queryDb.update({
-               		projects: projects
-          		  }, function(err, obj){
-            			if(err){
-            				res.send(" Problem updating the information to the database:"+ err);
-            	  	}
-        		    });
               });
                res.send({message : 'deleted',
                          item : project

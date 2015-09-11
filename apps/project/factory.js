@@ -1,21 +1,26 @@
-pikelife.service('ProjectService', function() {
+pikelife.service('ProjectService', function(PikelifeService) {
 
   var projectService = this;
   
-  /*var projects = {
-    id1 : {
-      name : "project 1",
-      spreedsheetKey : "key 1"
-    },
-    id2 : {
-      name : "project 2",
-      spreedsheetKey : "key 2"
-    }
-  };*/
   var projects;
   projectService.projects = function(val){
     if(val !== undefined) projects = val;
     return projects;
+  };
+  
+  var selectedProject;
+  projectService.selectedProject = function(val){
+    if(val !== undefined) selectedProject = val;
+    return selectedProject;
+  };
+  
+  projectService.getSuccess = function(data){
+    projectService.projects(data);
+  };
+  
+  projectService.getAllProjects = function(id){ 
+    if(id)
+      PikelifeService.get('projectsAll', 'id='+id, null, projectService.getSuccess);
   };
 
 });

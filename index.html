@@ -94,6 +94,9 @@
             </a>
   
             <ul id="user-dropdown" class="dropdown-content">
+              <li><a href="/profile"><i class="fa fa-user"></i> Profile</a>
+              </li>
+              <li class="divider"></li>
               <li><a href="#!" ng-click="ProfileCtrl.logout()"><i class="fa fa-sign-out"></i> Logout</a>
               </li>
             </ul>
@@ -153,10 +156,10 @@
           <li>
             <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-action-dns"></i> Apps <span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
             <ul> 
-              <li ng-repeat="project in ProjectCtrl.ProjectService.projects().v">
-                <a class="yay-sub-toggle waves-effect waves-blue" ng-click="ProjectCtrl.showProject(project.id)">{{project.name}}</a> 
+              <li ng-repeat="project in ProjectCtrl.ProjectService.projects()">
+                <a class="yay-sub-toggle waves-effect waves-blue" ng-click="ProjectCtrl.showProject(project._id)">{{project.name}}</a> 
               </li>
-              <li ng-hide="ProjectCtrl.ProjectService.projects().v">
+              <li ng-hide="ProjectCtrl.ProjectService.projects().length > 0"> 
                 <a class="yay-sub-toggle">No project available</a> 
               </li>
             </ul>
@@ -175,19 +178,19 @@
   <!-- Main Content -->
   <section class="content-wrap" ng-controller="ProjectController as ProjectCtrl">
 
-    <div ng-show="ProjectCtrl.selectedProject()">
+    <div ng-show="ProjectCtrl.ProjectService.selectedProject()">
       <!-- Breadcrumb -->
       <div class="page-title">
   
         <div class="row">
           <div class="col s6 m8 l10">  
-            <h1>API name</h1>
+            <h1>{{ProjectCtrl.ProjectService.selectedProject().name}}</h1>
           </div>
           <div class="col s3 m2 l1 right-align">
-            <a href="#!" class="btn green lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-content-save"></i></a>
+            <a href="#!" class="btn green lighten-3 white-text z-depth-0 waves-effect" ng-click="ProjectCtrl.updateProject()"><i class="mdi-content-save"></i></a>
           </div>
           <div class="col s3 m2 l1 right-align">
-            <a href="#!" class="btn red lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-action-delete"></i></a>
+            <a href="#!" class="btn red lighten-3 white-text z-depth-0 waves-effect" ng-click="ProjectCtrl.deleteProject()"><i class="mdi-action-delete"></i></a>
           </div>
         </div>
       </div>
@@ -200,7 +203,13 @@
             <i class="mdi-navigation-expand-less"></i>
           </a>
         </div>
-        <div class="content spreadsheet-link"><a href="#" target="_blank">link</a></div>
+        <div class="content spreadsheet-link">
+          <div class="input-field">
+            <i class="fa fa-user prefix"></i> 
+            <input id="link-input" type="text" name="link" value="{{ProjectCtrl.ProjectService.selectedProject().spreedKey}}" ng-model="ProjectCtrl.ProjectService.selectedProject().spreedKey">
+            <label for="link-input">Key</label>
+          </div>
+        </div>
       </div>
     
       <div class="card">

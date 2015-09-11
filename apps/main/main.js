@@ -4,34 +4,43 @@ pikelife.service('PikelifeService', function($http) {
 
   var pikelifeService = this;
   
-  pikelifeService.get = function(appName, query) {
+  pikelifeService.get = function(appName, query, body, callBack) {
     $http.get("/" + appName + "?" + query)
     .success(function(data, status, headers, config) {
-      pikelifeService.getSuccess(data);
+      callBack(data);
     }).error(function(data, status, headers, config) {
       
     });
   };
   
-  pikelifeService.post = function(appName, body) {
-    $http.post("/" + appName, body).
+  pikelifeService.post = function(appName, query,  body, callBack) {
+    $http.post("/" + appName + "?" + query, body).
     then(function(response) {
       if(response)
-        pikelifeService.postSuccess(response.data);
-    }, function(response) {
+        callBack(response.data);
+    }, function(response) {  
       
     });
   };
   
-  pikelifeService.put = function(appName, query, body) {
-  
+  pikelifeService.put = function(appName, query, body, callBack) {
+    $http.put("/" + appName + "?" + query, body).
+      then(function(response) {
+        if(response.data.ok > 0)
+          callBack();
+      }, function(response) {  
+        
+    });
   };
   
-  pikelifeService.delete = function(appName, query, body) {
-  
+  pikelifeService.delete = function(appName, query, body, callBack) {
+    $http.delete("/" + appName + "?" + query, body).
+      then(function(response) {
+        if(response.data.message ==="deleted")
+          callBack();
+      }, function(response) {  
+        
+    });
   };
-  
-  pikelifeService.getSuccess = function(){};
-  pikelifeService.postSuccess = function(){};
 
 });
