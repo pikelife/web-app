@@ -11,7 +11,8 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
   };
   
   profileCtrl.login = function(){ 
-    PikelifeService.post('login', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
+    if(profileCtrl.authProfile() && profileCtrl.authProfile().password && profileCtrl.authProfile().email) 
+      PikelifeService.post('login', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
   };
   
   profileCtrl.logout = function(){
@@ -21,11 +22,13 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
       ProjectService.projects([]);
       ProjectService.selectedProject(null);
       sessionStorage.removeItem('usrId');
+      profileCtrl.authType('login'); 
     });
   };
   
   profileCtrl.register = function(){ 
-    PikelifeService.post('register', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
+    if(profileCtrl.authProfile() && profileCtrl.authProfile().name && profileCtrl.authProfile().password && profileCtrl.authProfile().email)
+      PikelifeService.post('register', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
   };
   
   var authType = "login";
@@ -35,14 +38,33 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
     return authType;
   };
   
+  var authError = "";
+  profileCtrl.authError = function(val){
+    if(val !== undefined) authError = val;
+    return authError;
+  };
+  
   profileCtrl.getSuccess = function(data){
     if(data){
-      $timeout(function(){
-        ProfileService.profile(data); 
-        ProjectService.getAllProjects(data._id);
-        sessionStorage.setItem('usrId', data._id);
-        ProfileService.isLogged(true);
-      });
+      if(data.error){
+        if(data.error === "email" && profileCtrl.authType() === "login"){
+          profileCtrl.authError('wrong email');
+        }else if(data.error === "email" && profileCtrl.authType() === "register"){
+          profileCtrl.authError('Email already existing');
+        }else if(data.error === "password"){ 
+          profileCtrl.authError('wrong password'); 
+        }
+        $("#auth-error").show();
+      }else{
+        $timeout(function(){
+          ProfileService.profile(data); 
+          ProjectService.getAllProjects(data._id);
+          sessionStorage.setItem('usrId', data._id);
+          ProfileService.isLogged(true);
+          profileCtrl.authType('auth-success');
+        });
+        $("#auth-error").hide();
+      }
     }
   };
   
@@ -50,6 +72,7 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
     if(data){
       $timeout(function(){
         ProfileService.profile(data);
+        profileCtrl.authType('auth-success');
         ProfileService.isLogged(true);
       });
     }

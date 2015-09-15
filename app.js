@@ -85,10 +85,8 @@ app.get('/', function (req, res) {
 app.post('/login', function (req, res) { 
   var query = getQueryObj(req.url);
   var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
-  console.log('request email :' + req.body.email);  
   queryDb.exec(function (err, obj) {
     if (err) return console.error(err);
-    console.log(console.dir(obj)); 
     if(obj){
       if(obj.password === req.body.password){
         res.send(obj);
@@ -108,10 +106,8 @@ app.post('/login', function (req, res) {
 app.post('/register', function (req, res) {
   var query = getQueryObj(req.url);
   var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
-  console.log('request email :' + req.body.email);  
   queryDb.exec(function (err, obj) {
     if (err) return console.error(err);
-    console.log(console.dir(obj)); 
     if(obj){
       res.send({
         error : 'email'
@@ -123,7 +119,6 @@ app.post('/register', function (req, res) {
                                                    "password" : req.body.password });
       newProfile.save(function (err, obj) {
         if (err) return console.error(err);
-        console.log("GET after existing user profile : " + obj);
         res.send(obj);
       });
     }   
@@ -135,7 +130,6 @@ app.get('/projectsAll', function (req, res) {
   var queryDb = _this.profileModel().findOne({ '_id': query.id});
   queryDb.exec(function (err, obj) {
     if (err) return console.error(err);
-    console.log("POST profile : " + obj);
     var projectsArrId = obj.projects;
     var queryDb = _this.projectModel().find();
     queryDb.exec(function (err, obj) {
@@ -143,7 +137,6 @@ app.get('/projectsAll', function (req, res) {
               if (err) return console.error(err);
                 for(var i in obj){
                   for(var j = 0 ; j < projectsArrId.length ; j++){  
-                    console.log(JSON.stringify(obj[i]._id) == JSON.stringify(projectsArrId[j]));
                     if(JSON.stringify(obj[i]._id) == JSON.stringify(projectsArrId[j])){ 
                       result.push(obj[i]);
                     }
@@ -161,19 +154,16 @@ app.route('/profile')
     var queryDb = _this.profileModel().findOne({ '_id': query.id});
     queryDb.exec(function (err, obj) {
       if (err) return console.error(err);
-      console.log("POST profile : " + obj);
       res.send(obj); 
     });
   })
   .post(function(req, res) {
     var query = getQueryObj(req.url);
-    console.log("received query " + req.body);
       var newProfile = new _this.profileModel()({  "email" : req.body.email,
                                                    "name" : req.body.name,
                                                    "password" : req.body.password });
       newProfile.save(function (err, obj) {
         if (err) return console.error(err);
-        console.log("GET after existing user profile : " + obj);
         res.send(obj);
       });
   })
@@ -205,7 +195,6 @@ app.route('/profile')
               return console.error(err);
           } else {
               //Returning success messages saying it was deleted
-              console.log('DELETE removing email: ' + profile._email);
                res.send({message : 'deleted',
                          item : profile
                         });
@@ -272,13 +261,11 @@ app.route('/project')
               return console.error(err);
           } else {
               //Returning success messages saying it was deleted 
-              console.log('DELETE removing project ID: ' + JSON.stringify(project));
               var queryDb = _this.profileModel().findOne({ '_id': query.usrId});
               var profile;
               queryDb.exec(function (err, obj) {
                 if (err) return console.error(err);
                 profile = obj; 
-                console.log(obj);
                 if(profile){
                   var projects = profile.projects;
                   for(var i in projects){
@@ -286,7 +273,6 @@ app.route('/project')
                       projects.splice(i, 1);
                     }
                   }
-                  console.log("projects after delete" + JSON.stringify(projects));
                 	queryDb.update({
                  		projects: projects
             		  }, function(err, obj){
@@ -295,7 +281,7 @@ app.route('/project')
               	  	}
           		    });
                 }
-              });
+              }); 
                res.send({message : 'deleted',
                          item : project
                         });
