@@ -86,15 +86,15 @@
       
       <!-- Menu -->
       <ul>  
-        <li ng-hide="ProfileCtrl.ProfileService.isLogged()" id="loggout-menu" style="margin-right: 24px"><a href="#auth-modal" class="search-bar-toggle modal-trigger"><i class="mdi-social-person-add"></i></a></li>
+        <li ng-hide="ProfileCtrl.ProfileService.isLogged()" id="loggout-menu" style="margin-right: 24px"><a href="#auth-modal" class="modal-trigger"><i class="mdi-social-person-add"></i></a></li>
         <li ng-show="ProfileCtrl.ProfileService.isLogged()" id="logged-menu" class="user">
           <div>
             <a style="color: #424242;" class="dropdown-button" href="#!" data-activates="user-dropdown">
               <img ng-show="ProfileCtrl.ProfileService.profile().logo" ng-src="{{ProfileCtrl.ProfileService.profile().logo}}" alt="{{ProfileCtrl.ProfileService.profile().name}}" style="height: 35px;" class="circle">{{ProfileCtrl.ProfileService.profile().name}}<i class="mdi-navigation-expand-more right"></i>
             </a>
   
-            <ul id="user-dropdown" class="dropdown-content">
-              <li><a href="/profile"><i class="fa fa-user"></i> Profile</a>
+            <ul id="user-dropdown" class="dropdown-content">     
+              <li><a href="#profile-modal" ng-click="ProfileCtrl.openUpdateProfileDialog()" class="modal-trigger"><i class="fa fa-user"></i> Profile</a>
               </li>
               <li class="divider"></li>
               <li><a href="#!" ng-click="ProfileCtrl.logout()"><i class="fa fa-sign-out"></i> Logout</a>
@@ -178,21 +178,36 @@
   <!-- Main Content -->
   <section class="content-wrap" ng-controller="ProjectController as ProjectCtrl">
 
-    <div ng-show="ProjectCtrl.ProjectService.selectedProject()">
+    <div ng-show="ProjectCtrl.isProjectSelected()">
       <!-- Breadcrumb -->
       <div class="page-title">
   
         <div class="row">
-          <div class="col s6 m8 l10">  
+          <div class="col s6 m8 l10" ng-hide="ProjectCtrl.isProjectNameEdit()">  
             <h1>{{ProjectCtrl.ProjectService.selectedProject().name}}</h1>
+            <ul>
+              <li> 
+                <a href="#" ng-click="ProjectCtrl.isProjectNameEdit(true)"><i class="mdi-content-create"></i> Click to edit the project name</a>
+              </li>
+            </ul>
+          </div>
+          <div ng-show="ProjectCtrl.isProjectNameEdit()" class="col s6 m8 l10">  
+            <div class="input-field"> 
+              <input id="input_email" type="text" name="project-name" ng-model="ProjectCtrl.ProjectService.selectedProject().name">
+            </div>
+            <ul> 
+              <li> 
+                <a href="#" ng-click="ProjectCtrl.isProjectNameEdit(false)"><i class="mdi-content-clear"></i> done</a>
+              </li>
+            </ul>
           </div>
           <div class="col s3 m2 l1 right-align">
-            <a href="#!" class="btn green lighten-3 white-text z-depth-0 waves-effect" ng-click="ProjectCtrl.updateProject()"><i class="mdi-content-save"></i></a>
+            <a href="#confim-update-project" class="btn modal-trigger green lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-content-save"></i></a>
           </div>
           <div class="col s3 m2 l1 right-align">
-            <a href="#!" class="btn red lighten-3 white-text z-depth-0 waves-effect" ng-click="ProjectCtrl.deleteProject()"><i class="mdi-action-delete"></i></a>
+            <a href="#confim-delete-project" class="btn modal-trigger red lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-action-delete"></i></a>
           </div>
-        </div>
+        </div> 
       </div>
       <!-- /Breadcrumb -->
   
@@ -218,8 +233,8 @@
           <a class="minimize" href="#">
             <i class="mdi-navigation-expand-less"></i>
           </a>
-        </div>
-        <div class="content spreadsheet-link"><a href="#" target="_blank">link</a></div>
+        </div> 
+        <div class="content spreadsheet-link"><a href="#" target="_blank">pikelife.com/api/{{ProjectCtrl.ProjectService.selectedProject().spreedKey}}</a></div>
       </div>
       
       <div class="row">
@@ -406,8 +421,16 @@
     
   </div>
     
-    <div ng-hide="ProjectCtrl.selectedProject()">
-      no project selected
+    <div ng-hide="ProjectCtrl.isProjectSelected()"> 
+      <div class="row">
+        <div class="col s12 m12 l12 center-align"> 
+          <h3>You have no currently selected project</h3>
+        </div> 
+        <div class="col s12 m12 l12 center-align">
+          <button class="waves-effect btn" ng-click="ProjectCtrl.addProject()">Add a new project</button>
+        </div>
+      </div>
+      <div></div>
     </div>
   </section>
   <!-- /Main Content -->
@@ -418,77 +441,104 @@
       <h4 ng-if="ProfileCtrl.authType() === 'login'">Login / <a href="#" ng-click="ProfileCtrl.authType('register')">Register</a></h4>
       <h4 ng-if="ProfileCtrl.authType() === 'register'"><a href="#" ng-click="ProfileCtrl.authType('login')">Login</a> / Register</h4>
       <h4 ng-if="ProfileCtrl.authType() === 'forgot-pass'"><a href="#" ng-click="ProfileCtrl.authType('login')">Login</a> / <a href="#" ng-click="ProfileCtrl.authType('register')">Register</a></h4>
-      <p>
-        <div ng-if="ProfileCtrl.authType() === 'login'"> 
- 
+      <div ng-if="ProfileCtrl.authType() === 'login'"> 
+        <form data-parsley-validate>
           <div class="input-field">
             <i class="fa fa-user prefix"></i> 
-            <input id="email-input" type="text" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email">
+            <input id="email-input" type="text" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required>
             <label for="email-input">Email</label>
           </div>
          
           <div class="input-field">
             <i class="fa fa-unlock-alt prefix"></i>
-            <input id="password-input" type="password" name="password" ng-model="ProfileCtrl.authProfile().password">
+            <input id="password-input" type="password" name="password" value="{{ProfileCtrl.authProfile().password}}" ng-model="ProfileCtrl.authProfile().password" required>
             <label for="password-input">Password</label>
           </div>
-          
-          <div class="right-align">
-            <a href="#!" ng-click="ProfileCtrl.authType('forgot-pass')">Forgot Password?</a>
-          </div>
-          
+           
           <div class="row">
-            <div class="col s3 offset-s9"><button class="waves-effect btn" ng-click="ProfileCtrl.login()">LogIn</button></div>
-          </div>
-          
-         
-        </div> 
-        
-        <div ng-if="ProfileCtrl.authType() === 'forgot-pass'"> 
- 
-          <div class="input-field">
-            <i class="fa fa-user prefix"></i>
-            <input id="email-input" type="text" name="email">
-            <label for="email-input">Email</label>
-          </div>
-          
-          <div class="row">
-            <div class="col s3 offset-s9"> <button class="waves-effect btn">Send</button></div>
-          </div>
-         
-        </div>
-        
-        <div ng-if="ProfileCtrl.authType() === 'register'">
+            <div class="col s3 offset-s9"><button class="waves-effect btn  modal-close" ng-click="ProfileCtrl.login()">LogIn</button></div>
+          </div> 
+        </form> 
+      </div>  
+       
+        <div ng-if="ProfileCtrl.authType() === 'register'"> 
   
           <div class="input-field">
-            <i class="fa fa-envelope prefix"></i>
-            <input id="input_email" type="email" name="email" ng-model="ProfileCtrl.authProfile().email">
+            <i class="fa fa-envelope prefix"></i> 
+            <input id="input_email" type="text" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email">
             <label for="input_email">Email</label>
           </div>
          
           <div class="input-field">
             <i class="fa fa-user prefix"></i>
-            <input id="input_username" type="text" name="username" ng-model="ProfileCtrl.authProfile().name">
+            <input id="input_username" type="text" name="username" value="{{ProfileCtrl.authProfile().name}}" ng-model="ProfileCtrl.authProfile().name">
             <label for="input_username">Username</label>
           </div>
          
           <div class="input-field">
             <i class="fa fa-unlock-alt prefix"></i>
-            <input id="input_password" type="password" name="password" ng-model="ProfileCtrl.authProfile().password">
+            <input id="input_password" type="password" name="password" value="{{ProfileCtrl.authProfile().password}}" ng-model="ProfileCtrl.authProfile().password">
             <label for="input_password">Password</label>
           </div> 
-         
-          <p>
-            <input type="checkbox" id="checkbox_terms" />
-            <label for="checkbox_terms">I agree to the <a href="#">terms of use</a>.</label>
-          </p>
           
           <div class="row">
-            <div class="col s3 offset-s9"> <button class="waves-effect btn" ng-click="ProfileCtrl.register()">Register</button></div>
+            <div class="col s3 offset-s9"> <button class="waves-effect btn modal-close " ng-click="ProfileCtrl.register()">Register</button></div>
           </div>
          
         </div>
-      </p>  
+    </div>
+  </div>
+  
+   <!--auth dialog -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">  
+      <h4>Update your profile </h4>
+      <div>
+          <div class="input-field">
+            <i class="fa fa-envelope prefix"></i>
+            <input id="input_email" type="email" name="email" ng-model="ProfileCtrl.updateProfileData().email">
+            <label for="input_email">Email</label>
+          </div>
+         
+          <div class="input-field">
+            <i class="fa fa-user prefix"></i>
+            <input id="input_username" type="text" name="username" ng-model="ProfileCtrl.updateProfileData().name">
+            <label for="input_username">Username</label>
+          </div>
+         
+          <div class="input-field">
+            <i class="fa fa-unlock-alt prefix"></i>
+            <input id="input_password" type="password" name="password" ng-model="ProfileCtrl.updateProfileData().password">
+            <label for="input_password">Password</label>
+          </div> 
+          
+          <div class="row">
+            <div class="col s3 offset-s9"> <button class="waves-effect btn  modal-close " ng-click="ProfileCtrl.updateProfile()">Update</button></div>
+          </div>
+           
+         </div>
+    </div>
+  </div>
+  
+  <div id="confim-update-project" class="modal" ng-controller="ProjectController as ProjectCtrl">
+    <div class="modal-content">
+      <h4>Update confirmation</h4>
+      <p>are you sure you want to update the project</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">No</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="ProjectCtrl.updateProject()">Yes</a>
+    </div> 
+  </div>
+  
+  <div id="confim-delete-project" class="modal" ng-controller="ProjectController as ProjectCtrl">
+    <div class="modal-content">
+      <h4>Delete confirmation</h4>
+      <p>are you sure you want to delete the project</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">No</a>   
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="ProjectCtrl.deleteProject()">Yes</a>
     </div>
   </div>
 
@@ -537,6 +587,9 @@
 
   <!-- Google Prettify -->
   <script type="text/javascript" src="assets/google-code-prettify/prettify.js"></script>
+  
+  <!-- parsley -->
+  <script type="text/javascript" src="assets/parsley/parsley.min.js"></script>
 
 </body>
 

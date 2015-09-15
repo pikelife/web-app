@@ -2,7 +2,6 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
 
   var projectCtrl = this; 
   projectCtrl.ProjectService = ProjectService;
-  var usrId= "55f24a34b418e4a2308e4024";
   
   projectCtrl.getSuccess = function(data){
     if(data){
@@ -15,6 +14,7 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
     if(data){
       $timeout(function(){
         projectCtrl.ProjectService.selectedProject(data);
+        projectCtrl.ProjectService.getAllProjects('55f24a34b418e4a2308e4024'); 
       });
     }
   };
@@ -40,16 +40,27 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
     }
   };
   
+  projectCtrl.isProjectSelected = function(){
+    if(jQuery.isEmptyObject(projectCtrl.ProjectService.selectedProject())) return false;
+    return true;
+  };
+  
+  var isProjectNameEdit = false;
+  projectCtrl.isProjectNameEdit = function(val){
+    if(val !== undefined) isProjectNameEdit = val;
+    return isProjectNameEdit;
+  };  
+  
   projectCtrl.updateProject = function(){
     PikelifeService.put('project', 'id='+projectCtrl.ProjectService.selectedProject()._id, projectCtrl.ProjectService.selectedProject(), projectCtrl.putSuccess);
   };
   
   projectCtrl.addProject = function(){
-    PikelifeService.post('project', 'id='+usrId, null, projectCtrl.postSuccess);
+    PikelifeService.post('project', 'id='+sessionStorage.getItem('usrId'), null, projectCtrl.postSuccess);
   };
   
   projectCtrl.deleteProject = function(){
-    PikelifeService.delete('project', 'id='+projectCtrl.ProjectService.selectedProject()._id+"&usrId=55f24a34b418e4a2308e4024", null, projectCtrl.deleteSuccess);
+    PikelifeService.delete('project', 'id='+projectCtrl.ProjectService.selectedProject()._id+"&usrId=" + sessionStorage.getItem('usrId'), null, projectCtrl.deleteSuccess);
   };
   
 

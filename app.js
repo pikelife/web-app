@@ -82,6 +82,54 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.post('/login', function (req, res) { 
+  var query = getQueryObj(req.url);
+  var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
+  console.log('request email :' + req.body.email);  
+  queryDb.exec(function (err, obj) {
+    if (err) return console.error(err);
+    console.log(console.dir(obj)); 
+    if(obj){
+      if(obj.password === req.body.password){
+        res.send(obj);
+      }else{
+        res.send({
+          error : 'password'
+        });
+      } 
+    }else{
+      res.send({
+        error : 'email'
+      });
+    }  
+  });
+});
+
+app.post('/register', function (req, res) {
+  var query = getQueryObj(req.url);
+  var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
+  console.log('request email :' + req.body.email);  
+  queryDb.exec(function (err, obj) {
+    if (err) return console.error(err);
+    console.log(console.dir(obj)); 
+    if(obj){
+      res.send({
+        error : 'email'
+      });
+    }else{
+      var query = getQueryObj(req.url);
+      var newProfile = new _this.profileModel()({  "email" : req.body.email,
+                                                   "name" : req.body.name,
+                                                   "password" : req.body.password });
+      newProfile.save(function (err, obj) {
+        if (err) return console.error(err);
+        console.log("GET after existing user profile : " + obj);
+        res.send(obj);
+      });
+    }   
+  });
+});
+
 app.get('/projectsAll', function (req, res) {
   var query = getQueryObj(req.url);
   var queryDb = _this.profileModel().findOne({ '_id': query.id});
@@ -119,7 +167,7 @@ app.route('/profile')
   })
   .post(function(req, res) {
     var query = getQueryObj(req.url);
-  console.log("received query " + req.body);
+    console.log("received query " + req.body);
       var newProfile = new _this.profileModel()({  "email" : req.body.email,
                                                    "name" : req.body.name,
                                                    "password" : req.body.password });

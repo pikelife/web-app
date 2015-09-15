@@ -3,8 +3,6 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
   var profileCtrl = this; 
   profileCtrl.ProfileService = ProfileService;
   
-  var usrId= "55f24a34b418e4a2308e4024";
-  
   var authProfile = {};
   
   profileCtrl.authProfile = function(val){
@@ -12,17 +10,22 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
     return authProfile;
   };
   
-  profileCtrl.login = function(){
-    PikelifeService.get('profile', 'email='+profileCtrl.authProfile().email, null, profileCtrl.getSuccess);
+  profileCtrl.login = function(){ 
+    PikelifeService.post('login', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
   };
   
   profileCtrl.logout = function(){
-    ProfileService.profile(null);
-    ProfileService.isLogged(false);
+    $timeout(function(){
+      ProfileService.profile(null);
+      ProfileService.isLogged(false); 
+      ProjectService.projects([]);
+      ProjectService.selectedProject(null);
+      sessionStorage.removeItem('usrId');
+    });
   };
   
-  profileCtrl.register = function(){
-     PikelifeService.post('profile', profileCtrl.authProfile());
+  profileCtrl.register = function(){ 
+    PikelifeService.post('register', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
   };
   
   var authType = "login";
@@ -34,18 +37,45 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
   
   profileCtrl.getSuccess = function(data){
     if(data){
-      ProfileService.profile(data); 
-      ProjectService.getAllProjects(data._id);
-      ProfileService.isLogged(true);
+      $timeout(function(){
+        ProfileService.profile(data); 
+        ProjectService.getAllProjects(data._id);
+        sessionStorage.setItem('usrId', data._id);
+        ProfileService.isLogged(true);
+      });
     }
   };
   
   profileCtrl.postSuccess = function(data){
     if(data){
-      ProfileService.profile(data);
-      ProfileService.isLogged(true);
+      $timeout(function(){
+        ProfileService.profile(data);
+        ProfileService.isLogged(true);
+      });
     }
   };
   
-  PikelifeService.get('profile', 'id='+usrId, null, profileCtrl.getSuccess);
+  profileCtrl.putSuccess = function(data){
+    $timeout(function(){ 
+      PikelifeService.get('profile', 'id='+sessionStorage.getItem('usrId'), null, profileCtrl.getSuccess); 
+    });
+  };
+  
+  var updateProfileData;
+  profileCtrl.updateProfileData = function(val){
+    if(val !== undefined) updateProfileData = val;
+    return updateProfileData;
+  };
+  
+  profileCtrl.openUpdateProfileDialog = function(){   
+    $timeout(function(){
+      profileCtrl.updateProfileData($.extend(true, {}, ProfileService.profile()));
+    }, 500); 
+  };
+  
+  profileCtrl.updateProfile = function(){
+    PikelifeService.put('profile', 'id=' + sessionStorage.getItem('usrId'), profileCtrl.updateProfileData(), profileCtrl.putSuccess); 
+  };
+  
+  PikelifeService.get('profile', 'id='+sessionStorage.getItem('usrId'), null, profileCtrl.getSuccess);
 });
