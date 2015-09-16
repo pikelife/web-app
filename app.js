@@ -84,45 +84,49 @@ app.get('/', function (req, res) {
 
 app.post('/login', function (req, res) { 
   var query = getQueryObj(req.url);
-  var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
-  queryDb.exec(function (err, obj) {
-    if (err) return console.error(err);
-    if(obj){
-      if(obj.password === req.body.password){
-        res.send(obj);
+  if(req.body){
+    var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
+    queryDb.exec(function (err, obj) {
+      if (err) return console.error(err);
+      if(obj){
+        if(obj.password === req.body.password){
+          res.send(obj);
+        }else{
+          res.send({
+            error : 'password'
+          });
+        } 
       }else{
         res.send({
-          error : 'password'
+          error : 'email'
         });
-      } 
-    }else{
-      res.send({
-        error : 'email'
-      });
-    }  
-  });
+      }  
+    });
+  }
 });
 
 app.post('/register', function (req, res) {
   var query = getQueryObj(req.url);
-  var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
-  queryDb.exec(function (err, obj) {
-    if (err) return console.error(err);
-    if(obj){
-      res.send({
-        error : 'email'
-      });
-    }else{
-      var query = getQueryObj(req.url);
-      var newProfile = new _this.profileModel()({  "email" : req.body.email,
-                                                   "name" : req.body.name,
-                                                   "password" : req.body.password });
-      newProfile.save(function (err, obj) {
-        if (err) return console.error(err);
-        res.send(obj);
-      });
-    }   
-  });
+  if(req.body){
+    var queryDb = _this.profileModel().findOne({ 'email': req.body.email});
+    queryDb.exec(function (err, obj) {
+      if (err) return console.error(err);
+      if(obj){
+        res.send({
+          error : 'email'
+        });
+      }else{
+        var query = getQueryObj(req.url);
+        var newProfile = new _this.profileModel()({  "email" : req.body.email,
+                                                     "name" : req.body.name,
+                                                     "password" : req.body.password });
+        newProfile.save(function (err, obj) {
+          if (err) return console.error(err);
+          res.send(obj);
+        });
+      }   
+    });
+  }
 });
 
 app.get('/projectsAll', function (req, res) {

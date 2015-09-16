@@ -3,12 +3,12 @@ pikelife.service('ProfileService', function() {
   var profileService = this;
   
   
-  var profile = {  };
+  var profile = {};
   
   profileService.profile = function(val){
     if(val !== undefined) profile = val;
     return profile;
-  };
+  }; 
   
   var isLogged = false;
 

@@ -11,6 +11,7 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
   };
   
   profileCtrl.login = function(){ 
+    $("#auth-error").hide();
     if(profileCtrl.authProfile() && profileCtrl.authProfile().password && profileCtrl.authProfile().email) 
       PikelifeService.post('login', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
   };
@@ -27,6 +28,7 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
   };
   
   profileCtrl.register = function(){ 
+    $("#auth-error").hide();
     if(profileCtrl.authProfile() && profileCtrl.authProfile().name && profileCtrl.authProfile().password && profileCtrl.authProfile().email)
       PikelifeService.post('register', null, profileCtrl.authProfile(), profileCtrl.getSuccess);
   };
@@ -78,13 +80,17 @@ pikelife.controller('ProfileController', function($timeout, ProfileService, Proj
     }
   };
   
-  profileCtrl.putSuccess = function(data){
+  profileCtrl.putSuccess = function(){
     $timeout(function(){ 
+      $("#profile-saved").show();
       PikelifeService.get('profile', 'id='+sessionStorage.getItem('usrId'), null, profileCtrl.getSuccess); 
     });
+    $timeout(function(){
+      $("#profile-saved").hide();
+    }, 5000);
   };
   
-  var updateProfileData;
+  var updateProfileData = {};
   profileCtrl.updateProfileData = function(val){
     if(val !== undefined) updateProfileData = val;
     return updateProfileData;

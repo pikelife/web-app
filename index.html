@@ -451,7 +451,7 @@
         <form data-parsley-validate>
           <div class="input-field">
             <i class="fa fa-user prefix"></i> 
-            <input id="email-input" type="text" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required>
+            <input id="email-input" type="email" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required>
             <label for="email-input">Email</label>
           </div>
          
@@ -471,7 +471,7 @@
           <form data-parsley-validate>
             <div class="input-field">
               <i class="fa fa-envelope prefix"></i> 
-              <input id="input_email" type="text" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required> 
+              <input id="input_email" type="email" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required> 
               <label for="input_email">Email</label>
             </div>
            
@@ -511,6 +511,9 @@
   <div id="profile-modal" class="modal">
     <div class="modal-content">  
       <h4>Update your profile </h4>
+      <div style="display:none" class="alert green lighten-4 green-text text-darken-2" id="profile-saved">
+        <strong>Saved successfully</strong>
+      </div>
       <div>
         <form data-parsley-validate>
           <div class="input-field">

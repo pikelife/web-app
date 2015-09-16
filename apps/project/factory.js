@@ -1,21 +1,23 @@
-pikelife.service('ProjectService', function(PikelifeService) {
+pikelife.service('ProjectService', function(PikelifeService, $timeout) {
 
-  var projectService = this;
+  var projectService = this; 
   
-  var projects;
+  var projects = [];
   projectService.projects = function(val){
     if(val !== undefined) projects = val;
     return projects;
   };
   
-  var selectedProject;
+  var selectedProject= {};
   projectService.selectedProject = function(val){
     if(val !== undefined) selectedProject = val;
     return selectedProject;
   };
   
   projectService.getSuccess = function(data){
-    projectService.projects(data);
+    $timeout(function(){
+      projectService.projects(data);
+    });
   };
   
   projectService.getAllProjects = function(id){ 

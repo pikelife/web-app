@@ -6,7 +6,7 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
   projectCtrl.getSuccess = function(data){
     if(data){
       projectCtrl.ProjectService.selectedProject(data);
-      projectCtrl.ProjectService.getAllProjects('55f24a34b418e4a2308e4024');
+      projectCtrl.ProjectService.getAllProjects(sessionStorage.getItem('usrId'));
     }
   };
   
@@ -14,7 +14,8 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
     if(data){
       $timeout(function(){
         projectCtrl.ProjectService.selectedProject(data);
-        projectCtrl.ProjectService.getAllProjects('55f24a34b418e4a2308e4024'); 
+        projectCtrl.ProjectService.getAllProjects(sessionStorage.getItem('usrId')); 
+        var test;
       });
     }
   };
@@ -27,7 +28,7 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
   
   projectCtrl.deleteSuccess = function(){
     projectCtrl.ProjectService.selectedProject(null);
-    projectCtrl.ProjectService.getAllProjects('55f24a34b418e4a2308e4024');
+    projectCtrl.ProjectService.getAllProjects(sessionStorage.getItem('usrId'));
   };
   
   projectCtrl.showProject = function(id){
