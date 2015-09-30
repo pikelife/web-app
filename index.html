@@ -148,12 +148,12 @@
 
     <div class="nano" ng-controller="ProjectController as ProjectCtrl">
       <div class="nano-content">
-
+ 
         <ul>
 
-          <li class="label">Projects</li>
+          <li class="label">Menu</li>
 
-          <li>
+          <li ng-show="ProfileCtrl.ProfileService.isLogged()">  
             <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-action-dns"></i> Apps <span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
             <ul> 
               <li ng-repeat="project in ProjectCtrl.ProjectService.projects()">
@@ -427,8 +427,8 @@
     
     <div ng-hide="ProjectCtrl.isProjectSelected()"> 
       <div class="row">
-        <div class="col s12 m12 l12 center-align"> 
-          <h3>You have no currently selected project</h3>
+        <div class="col s12 m12 l12 center-align">    
+          <h3>Start an app from your google spreadsheet</h3>
         </div> 
         <div class="col s12 m12 l12 center-align">
           <button class="waves-effect btn" ng-click="ProjectCtrl.addProject()">Add a new project</button>

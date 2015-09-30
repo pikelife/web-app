@@ -2,7 +2,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     urlHelper = require('url'),
     httpRequest = require('request'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),  
+    request = require("request");
 
 
 var _this = this;
@@ -150,6 +151,48 @@ app.get('/projectsAll', function (req, res) {
               });  
   });
 });
+
+
+  
+getCallback = 
+app.route('/api/:id')
+  .get(function(req, res) {  
+    var query = req.url.split('?')[1];  
+    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';  
+    googleUrl += query + "&url=" + req.params.id; 
+    
+    request(googleUrl, function(error, response, body) {
+      res.send(body);
+    });       
+  })
+  .post(function(req, res) {
+    var data = req.body.data;  
+    
+    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?url=' + req.params.id; 
+    
+    request.post({url:googleUrl, followAllRedirects : true, form: {data : data, methodType: "post"}}, function(error, response, body) {
+      res.send(body);  
+    });    
+  })
+  .put(function(req, res) {
+    var query = req.url.split('?')[1];  
+    var data = req.body.data; 
+    
+    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';   
+    googleUrl += query + "&url=" + req.params.id; 
+    request.post({url:googleUrl, followAllRedirects : true, form: {data : data, methodType: "put"}}, function(error, response, body) {
+      res.send(body);  
+    });   
+  })
+  .delete(function(req, res) {
+    var query = req.url.split('?')[1];   
+    
+    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';   
+    googleUrl += query + "&url=" + req.params.id;  
+    request.post({url:googleUrl, followAllRedirects : true, form: {methodType: "delete"}}, function(error, response, body) {  
+      res.send(body);  
+    }); 
+  });
 
 app.route('/profile')
   .get(function(req, res) {
