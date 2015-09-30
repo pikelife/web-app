@@ -26,9 +26,9 @@ pikelife.service('PikelifeService', function($http) {
   pikelifeService.put = function(appName, query, body, callBack) {
     $http.put("/" + appName + "?" + query, body).
       then(function(response) {
-        if(response.data.ok > 0)
-          callBack();
-      }, function(response) {  
+        if(response)  
+          callBack(response.data);
+      }, function(response) {   
         
     });
   };
@@ -36,8 +36,8 @@ pikelife.service('PikelifeService', function($http) {
   pikelifeService.delete = function(appName, query, body, callBack) {
     $http.delete("/" + appName + "?" + query, body).
       then(function(response) {
-        if(response.data.message ==="deleted")
-          callBack();
+        if(response)
+          callBack(response.data);  
       }, function(response) {  
         
     });

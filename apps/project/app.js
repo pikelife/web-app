@@ -64,5 +64,64 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
     PikelifeService.delete('project', 'id='+projectCtrl.ProjectService.selectedProject()._id+"&usrId=" + sessionStorage.getItem('usrId'), null, projectCtrl.deleteSuccess);
   };
   
+  getUrlList = [{key : "", value : ""}];
+  projectCtrl.getUrlList = function(val){
+    if(val !== undefined) getUrlList = val;
+    return getUrlList;
+  };
+  
+  projectCtrl.addGetUrl = function(){  
+    projectCtrl.getUrlList().push({key : "", value : ""});
+  };
+  
+  postBodyList = [{key : "", value : ""}];
+  projectCtrl.postBodyList = function(val){
+    if(val !== undefined) postBodyList = val;
+    return postBodyList;
+  };  
+  
+  projectCtrl.addPostBody = function(){  
+    projectCtrl.postBodyList().push({key : "", value : ""});
+  };
+  
+  requestResult = [];
+  projectCtrl.requestResult = function(val){
+    if(val !== undefined) requestResult = val;
+    return requestResult;
+  };
+  
+  projectCtrl.apiSuccess = function(data){
+    projectCtrl.requestResult(data);  
+  };
+  
+  projectCtrl.sendRequest = function(type){
+    var urlQuery = "";  
+    for(var i in projectCtrl.getUrlList()){
+      urlQuery += projectCtrl.getUrlList()[i].key;  
+      urlQuery += "="; 
+      urlQuery += projectCtrl.getUrlList()[i].value;
+      if(i + 1 < projectCtrl.getUrlList().length) urlQuery += "&";
+    }
+    
+    var bodyRequest = {};
+    for(var j in projectCtrl.postBodyList()){    
+      bodyRequest[projectCtrl.postBodyList()[j].key] = projectCtrl.postBodyList()[j].value;   
+    }   
+    if(type === "get"){  
+      PikelifeService.get('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
+    }else{
+     switch(type){
+      case "post":
+        PikelifeService.post('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, null, bodyRequest, projectCtrl.apiSuccess); 
+        break;
+      case "put":
+        PikelifeService.put('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, bodyRequest, projectCtrl.apiSuccess);
+        break;  
+      case "delete":
+        PikelifeService.delete('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
+        break;
+     }
+    }
+  };
 
 });

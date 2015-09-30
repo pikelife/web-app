@@ -257,32 +257,46 @@
               </div>
               <div class="content">
                 <div class="row">
-                  <div class="col s6 m6 l6">    
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Key</label>
+                  <div class="col s12 m12 l12" ng-repeat="getUrl in ProjectCtrl.getUrlList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.value">
+                        <label for="input_text">Value</label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col s6 m6 l6">
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Value</label>
-                    </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addGetUrl()">    
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
             
   
-            <div class="card-panel">
-              <div class="row">
+            <div class="card-panel">  
+              <div class="row title">
                 <div class="col s12 m7 l9">    
                   <h4>Request result</h4>
                 </div>
                 <div class="col s12 m5 l3">
-                  <button class="btn" type="submit" name="action">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('get')">
                     Send request <i class="mdi-content-send right"></i>
                   </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult()}}  
+                  </div>
                 </div>
               </div>
             </div>
@@ -295,17 +309,24 @@
               </div>
               <div class="content">
                 <div class="row">
-                  <div class="col s6 m6 l6">    
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Key</label>
+                  <div class="col s12 m12 l12" ng-repeat="postBody in ProjectCtrl.postBodyList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.value">
+                        <label for="input_text">Value</label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col s6 m6 l6">
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Value</label>
-                    </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addPostBody()">    
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
                   </div>
                 </div>
               </div>
@@ -313,14 +334,21 @@
             
   
             <div class="card-panel">
-              <div class="row">
+              <div class="row title">  
                 <div class="col s12 m7 l9">    
                   <h4>Request result</h4>
                 </div>
                 <div class="col s12 m5 l3">
-                  <button class="btn" type="submit" name="action">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('post')">
                     Send request <i class="mdi-content-send right"></i>
                   </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult()}}  
+                  </div>
                 </div>
               </div>
             </div>
@@ -332,17 +360,24 @@
               </div>
               <div class="content">
                 <div class="row">
-                  <div class="col s6 m6 l6">    
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Key</label>
+                  <div class="col s12 m12 l12" ng-repeat="getUrl in ProjectCtrl.getUrlList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.value">
+                        <label for="input_text">Value</label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col s6 m6 l6">
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Value</label>
-                    </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addGetUrl()">     
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
                   </div>
                 </div>
               </div>
@@ -354,17 +389,24 @@
               </div>
               <div class="content">
                 <div class="row">
-                  <div class="col s6 m6 l6">    
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Key</label>
+                  <div class="col s12 m12 l12" ng-repeat="postBody in ProjectCtrl.postBodyList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.value">
+                        <label for="input_text">Value</label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col s6 m6 l6">
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Value</label>
-                    </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addPostBody()">    
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
                   </div>
                 </div>
               </div>
@@ -372,14 +414,21 @@
             
   
             <div class="card-panel">
-              <div class="row">
+              <div class="row title">
                 <div class="col s12 m7 l9">    
                   <h4>Request result</h4>
                 </div>
                 <div class="col s12 m5 l3">
-                  <button class="btn" type="submit" name="action">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('put')">
                     Send request <i class="mdi-content-send right"></i>
                   </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult()}}  
+                  </div>
                 </div>
               </div>
             </div>
@@ -391,32 +440,46 @@
               </div>
               <div class="content">
                 <div class="row">
-                  <div class="col s6 m6 l6">    
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Key</label>
+                  <div class="col s12 m12 l12" ng-repeat="getUrl in ProjectCtrl.getUrlList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.value">
+                        <label for="input_text">Value</label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col s6 m6 l6">
-                    <div class="input-field">
-                      <input id="input_text" type="text" class="validate" placeholder="Placeholder">
-                      <label for="input_text">Value</label>
-                    </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addGetUrl()">     
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
                   </div>
                 </div>
-              </div>
+              </div>  
             </div>
             
   
-            <div class="card-panel">
-              <div class="row">
+            <div class="card-panel">  
+              <div class="row title">
                 <div class="col s12 m7 l9">    
                   <h4>Request result</h4>
                 </div>
                 <div class="col s12 m5 l3">
-                  <button class="btn" type="submit" name="action">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('delete')">
                     Send request <i class="mdi-content-send right"></i>
                   </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult}}  
+                  </div>
                 </div>
               </div>
             </div>
