@@ -76,6 +76,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {  
   // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
     // Pass to next layer of middleware
     next();
 }); 
@@ -164,6 +165,8 @@ app.get('/projectsAll', function (req, res) {
 getCallback = 
 app.route('/api/:usrId/:projectId')
   .get(function(req, res, next) {  
+    res.header('Access-Control-Allow-Origin', '*'); 
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
     var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
     queryDb.exec(function (err, obj) {
       if (err) return res.send({error : 'wrong user id'});          
