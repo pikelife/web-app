@@ -164,7 +164,7 @@
               </li>
             </ul>
           </li>
-          <li>
+          <li ng-show="ProfileCtrl.ProfileService.isLogged()"> 
             <a class="yay-sub-toggle waves-effect waves-blue"  ng-click="ProjectCtrl.addProject()"><i class="mdi-content-add"></i> Add a new project </a>
           </li>
           
@@ -181,9 +181,6 @@
 
   <!-- Main Content -->
   <section class="content-wrap" ng-controller="ProjectController as ProjectCtrl">
-    <div class="alert orange lighten-2 white-text" ng-hide="ProjectCtrl.isProjectSelected() || ProfileCtrl.ProfileService.isLogged()">
-      <strong>Warning!</strong> Your work might be lost if you are not logged in
-    </div>
     <div ng-show="ProjectCtrl.isProjectSelected()">
       <!-- Breadcrumb -->
       <div class="page-title">
@@ -215,10 +212,6 @@
           </div>
         </div> 
       </div> 
-      <!-- /Breadcrumb -->
-      <div class="alert orange lighten-2 white-text" ng-hide="ProfileCtrl.ProfileService.isLogged()">
-        <strong>Warning!</strong> Your work might be lost if you are not logged in
-      </div>
       <div class="card">
         <div class="title">
           <h5>Your spreadsheet</h5>
@@ -238,11 +231,11 @@
       <div class="card">
         <div class="title">
           <h5>Project Link</h5>
-          <a class="minimize" href="#">
+          <a class="minimize" href="#">  
             <i class="mdi-navigation-expand-less"></i>
           </a>
         </div> 
-        <div class="content spreadsheet-link"><a href="#" target="_blank">pikelife.com/api/{{ProjectCtrl.ProjectService.selectedProject().spreedKey}}</a></div>
+        <div class="content spreadsheet-link"><a href="#" target="_blank">pikelife.com/api/{{ProfileCtrl.ProfileService.profile()._id}}/{{ProjectCtrl.ProjectService.selectedProject().spreedKey}}</a></div>
       </div>
       
       <div class="row">
@@ -496,9 +489,14 @@
       <div class="row">
         <div class="col s12 m12 l12 center-align">    
           <h3>Start an app from your google spreadsheet</h3>
-        </div> 
-        <div class="col s12 m12 l12 center-align">
+        </div>  
+        <div ng-show="ProfileCtrl.ProfileService.isLogged()" class="col s12 m12 l12 center-align"> 
           <button class="waves-effect btn" ng-click="ProjectCtrl.addProject()">Add a new project</button>
+        </div>  
+        <div ng-hide="ProfileCtrl.ProfileService.isLogged()" class="col s12 m12 l12 center-align">
+          <a href="#auth-modal" class="modal-trigger">
+            <button class="waves-effect btn">Login</button>
+          </a> 
         </div>
       </div>
       <div class="row">

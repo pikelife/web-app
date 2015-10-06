@@ -108,17 +108,17 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
       bodyRequest[projectCtrl.postBodyList()[j].key] = projectCtrl.postBodyList()[j].value;   
     }   
     if(type === "get"){  
-      PikelifeService.get('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
+      PikelifeService.get('api/' + sessionStorage.getItem('usrId') + '/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
     }else{
      switch(type){
       case "post":
-        PikelifeService.post('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, null, bodyRequest, projectCtrl.apiSuccess); 
+        PikelifeService.post('api/' + sessionStorage.getItem('usrId') + '/' + projectCtrl.ProjectService.selectedProject().spreedKey, null, bodyRequest, projectCtrl.apiSuccess); 
         break;
       case "put":
-        PikelifeService.put('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, bodyRequest, projectCtrl.apiSuccess);
-        break;  
+        PikelifeService.put('api/' + sessionStorage.getItem('usrId') + '/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, bodyRequest, projectCtrl.apiSuccess);
+        break;    
       case "delete":
-        PikelifeService.delete('api/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
+        PikelifeService.delete('api/' + sessionStorage.getItem('usrId') + '/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
         break;
      }
     }

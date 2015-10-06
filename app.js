@@ -155,49 +155,69 @@ app.get('/projectsAll', function (req, res) {
 
   
 getCallback = 
-app.route('/api/:id')
+app.route('/api/:usrId/:projectId')
   .get(function(req, res) {  
-    var query = req.url.split('?')[1];  
-    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';  
-    googleUrl += query + "&url=" + req.params.id; 
-    
-    request(googleUrl, function(error, response, body) {
-      res.send(body);
-    });       
+    var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
+    queryDb.exec(function (err, obj) {
+      if (err) return res.send({error : 'wrong user id'});          
+      if(obj._id){  
+        var query = req.url.split('?')[1];
+        var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';  
+        googleUrl += query + "&url=" + req.params.projectId; 
+        
+        request(googleUrl, function(error, response, body) {
+          res.send(body);
+        }); 
+      }  
+    });
   })
   .post(function(req, res) {
-    var data = req.body.data;  
+    var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
+    queryDb.exec(function (err, obj) {
+      if (err) return res.send({error : 'wrong user id'});          
+      var data = req.body.data;  
     
-    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?url=' + req.params.id; 
-    
-    request.post({url:googleUrl, followAllRedirects : true, form: {data : data, methodType: "post"}}, function(error, response, body) {
-      res.send(body);  
-    });    
+      var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?url=' + req.params.projectId; 
+      
+      request.post({url:googleUrl, followAllRedirects : true, form: {data : data, methodType: "post"}}, function(error, response, body) {
+        res.send(body);  
+      });   
+    }); 
+      
   })
   .put(function(req, res) {
-    var query = req.url.split('?')[1];  
-    var data = req.body.data; 
-    
-    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';   
-    googleUrl += query + "&url=" + req.params.id; 
-    request.post({url:googleUrl, followAllRedirects : true, form: {data : data, methodType: "put"}}, function(error, response, body) {
-      res.send(body);  
-    });   
+    var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
+    queryDb.exec(function (err, obj) {
+      if (err) return res.send({error : 'wrong user id'});          
+      if(obj._id){  
+        var query = req.url.split('?')[1];  
+        var data = req.body.data; 
+        
+        var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';   
+        googleUrl += query + "&url=" + req.params.projectId; 
+        request.post({url:googleUrl, followAllRedirects : true, form: {data : data, methodType: "put"}}, function(error, response, body) {
+          res.send(body);  
+        });  
+      }  
+    });
   })
   .delete(function(req, res) {
-    var query = req.url.split('?')[1];   
+    var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
+    queryDb.exec(function (err, obj) {
+      if (err) return res.send({error : 'wrong user id'});          
+      var query = req.url.split('?')[1];   
     
-    var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';   
-    googleUrl += query + "&url=" + req.params.id;  
-    request.post({url:googleUrl, followAllRedirects : true, form: {methodType: "delete"}}, function(error, response, body) {  
-      res.send(body);  
-    }); 
+      var googleUrl = 'https://script.google.com/macros/s/AKfycbwAbq_lVUIWsdE6zZpE3f2_1zVhPsfYURQ2Y9r8CuYz_ZSwfbc/exec?';   
+      googleUrl += query + "&url=" + req.params.projectId;  
+      request.post({url:googleUrl, followAllRedirects : true, form: {methodType: "delete"}}, function(error, response, body) {  
+        res.send(body);    
+      });  
+    });  
   });
 
 app.route('/profile')
   .get(function(req, res) {
     var query = getQueryObj(req.url);
-    console.dir("GET received query " + JSON.stringify(query.id));
     var queryDb = _this.profileModel().findOne({ '_id': query.id});
     queryDb.exec(function (err, obj) {
       if (err) return console.error(err);
