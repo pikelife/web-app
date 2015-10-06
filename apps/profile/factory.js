@@ -5,7 +5,7 @@ pikelife.service('ProfileService', function() {
   
   var profile = {};
   
-   = function(val){
+  profileService.isLogged = function(val){
     if(val !== undefined) profile = val;
     return profile;
   }; 
