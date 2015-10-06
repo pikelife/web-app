@@ -116,7 +116,7 @@ pikelife.controller('ProjectController', function($timeout, ProfileService, Proj
         break;
       case "put":
         PikelifeService.put('api/' + sessionStorage.getItem('usrId') + '/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, bodyRequest, projectCtrl.apiSuccess);
-        break;    
+        break;    
       case "delete":
         PikelifeService.delete('api/' + sessionStorage.getItem('usrId') + '/' + projectCtrl.ProjectService.selectedProject().spreedKey, urlQuery, null, projectCtrl.apiSuccess);
         break;

@@ -73,6 +73,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+}); 
+
 
 function getQueryObj(url){
   var url_parts = urlHelper.parse(url, true);
@@ -156,7 +162,7 @@ app.get('/projectsAll', function (req, res) {
   
 getCallback = 
 app.route('/api/:usrId/:projectId')
-  .get(function(req, res) {  
+  .get(function(req, res, next) {  
     var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
     queryDb.exec(function (err, obj) {
       if (err) return res.send({error : 'wrong user id'});          
@@ -171,7 +177,7 @@ app.route('/api/:usrId/:projectId')
       }  
     });
   })
-  .post(function(req, res) {
+  .post(function(req, res, next) {
     var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
     queryDb.exec(function (err, obj) {
       if (err) return res.send({error : 'wrong user id'});          
@@ -185,7 +191,7 @@ app.route('/api/:usrId/:projectId')
     }); 
       
   })
-  .put(function(req, res) {
+  .put(function(req, res, next) {
     var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
     queryDb.exec(function (err, obj) {
       if (err) return res.send({error : 'wrong user id'});          
@@ -201,7 +207,7 @@ app.route('/api/:usrId/:projectId')
       }  
     });
   })
-  .delete(function(req, res) {
+  .delete(function(req, res, next) {
     var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
     queryDb.exec(function (err, obj) {
       if (err) return res.send({error : 'wrong user id'});          
