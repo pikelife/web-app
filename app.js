@@ -65,7 +65,15 @@ db.once('open', function (callback) {
   
 var app = express();
 
-app.options('*', cors());
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    
+    next();  
+};
+
+app.use(allowCrossDomain);
 
 app.use('/apps',  express.static(__dirname + '/apps'));
 app.use('/assets', express.static(__dirname + '/assets'));
@@ -361,7 +369,7 @@ var server = app.listen(8080, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('joinOn app listening at http://%s:%s', host, port);
+  console.log('pikelife app listening at http://%s:%s', host, port);
 
 });
 
