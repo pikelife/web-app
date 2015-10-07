@@ -65,6 +65,8 @@ db.once('open', function (callback) {
   
 var app = express();
 
+app.options('*', cors());
+
 app.use('/apps',  express.static(__dirname + '/apps'));
 app.use('/assets', express.static(__dirname + '/assets'));
 
@@ -73,8 +75,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-
-app.use(cors());
 
 
 function getQueryObj(url){
@@ -155,9 +155,6 @@ app.get('/projectsAll', function (req, res) {
   });
 });
 
-
-  
-getCallback = 
 app.route('/api/:usrId/:projectId')
   .get(function(req, res, next) {  
     var queryDb = _this.profileModel().findOne({ '_id': req.params.usrId});
