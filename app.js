@@ -2,7 +2,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     urlHelper = require('url'),
     httpRequest = require('request'),
-    mongoose = require('mongoose'),  
+    mongoose = require('mongoose'), 
+    cors = require('cors'), 
     request = require("request");
 
 
