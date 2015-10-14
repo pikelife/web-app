@@ -1,0 +1,689 @@
+<!--
+  Name: Con - Admin Dashboard with Material Design
+  Version: 2.3.2
+  Author: nK
+  Website: http://nkdev.info
+  Support: http://nk.ticksy.com
+  Purchase: http://themeforest.net/item/con-material-admin-dashboard-template/10621512?ref=_nK
+  License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+  Copyright 2015.
+-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="lt-ie7"> <![endif]-->
+<!--[if IE 7]>     <html class="lt-ie8"> <![endif]-->
+<!--[if IE 8]>     <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html ng-app="pikelife">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Pikelife</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
+
+  <link rel="icon" type="image/png" href="assets/_con/images/icon.png">
+  
+  <link rel="stylesheet" type="text/css" href="apps/main/style.css" />
+  
+  <!-- nanoScroller -->
+  <link rel="stylesheet" type="text/css" href="assets/nanoScroller/nanoscroller.css" />
+
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css" />
+
+  <!-- Material Design Icons -->
+  <link rel="stylesheet" type="text/css" href="assets/material-design-icons/css/material-design-icons.min.css" />
+
+  <!-- IonIcons -->
+  <link rel="stylesheet" type="text/css" href="assets/ionicons/css/ionicons.min.css" />
+
+  <!-- WeatherIcons -->
+  <link rel="stylesheet" type="text/css" href="assets/weatherIcons/css/weather-icons.min.css" />
+
+  <!-- Google Prettify -->
+  <link rel="stylesheet" type="text/css" href="assets/google-code-prettify/prettify.css" />
+  <!-- Main -->
+  <link rel="stylesheet" type="text/css" href="assets/_con/css/_con.min.css" />
+
+  <!--[if lt IE 9]>
+    <script src="assets/html5shiv/html5shiv.min.js"></script>
+  <![endif]-->
+</head>
+
+<body ng-controller="ProfileController as ProfileCtrl">
+
+
+  <!--
+  Top Navbar
+    Options:
+      .navbar-dark - dark color scheme
+      .navbar-static - static navbar
+      .navbar-under - under sidebar
+-->
+  <nav class="navbar-top">
+    <div class="nav-wrapper">
+
+      <!-- Sidebar toggle -->
+      <a href="#" class="yay-toggle">
+        <div class="burg1"></div>
+        <div class="burg2"></div>
+        <div class="burg3"></div>
+      </a>
+      <!-- Sidebar toggle -->
+
+      <!-- Logo -->
+      <a href="#!" class="brand-logo">
+        <img src="apps/main/img/logo.png" alt="Con">
+      </a>
+      <!-- /Logo -->
+      
+      
+      <!-- Menu -->
+      <ul>  
+        <li ng-hide="ProfileCtrl.ProfileService.isLogged()" id="loggout-menu" style="margin-right: 24px"><a href="#auth-modal" class="modal-trigger"><i class="mdi-social-person-add"></i></a></li>
+        <li ng-show="ProfileCtrl.ProfileService.isLogged()" id="logged-menu" class="user">
+          <div>
+            <a style="color: #424242;" class="dropdown-button" href="#!" data-activates="user-dropdown">
+              <img ng-show="ProfileCtrl.ProfileService.profile().logo" ng-src="{{ProfileCtrl.ProfileService.profile().logo}}" alt="{{ProfileCtrl.ProfileService.profile().name}}" style="height: 35px;" class="circle">{{ProfileCtrl.ProfileService.profile().name}}<i class="mdi-navigation-expand-more right"></i>
+            </a>
+  
+            <ul id="user-dropdown" class="dropdown-content">     
+              <li><a href="#profile-modal" ng-click="ProfileCtrl.openUpdateProfileDialog()" class="modal-trigger"><i class="fa fa-user"></i> Profile</a>
+              </li>
+              <li class="divider"></li>
+              <li><a href="#!" ng-click="ProfileCtrl.logout()"><i class="fa fa-sign-out"></i> Logout</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <!-- /Menu -->
+     
+
+    </div>
+  </nav>
+  <!-- /Top Navbar -->
+
+
+  <!--
+  Yay Sidebar
+  Options [you can use all of theme classnames]:
+    .yay-hide-to-small         - no hide menu, just set it small with big icons
+    .yay-static                - stop using fixed sidebar (will scroll with content)
+    .yay-gestures              - to show and hide menu using gesture swipes
+    .yay-light                 - light color scheme
+    .yay-hide-on-content-click - hide menu on content click
+
+  Effects [you can use one of these classnames]:
+    .yay-overlay  - overlay content
+    .yay-push     - push content to right
+    .yay-shrink   - shrink content width
+-->
+  <aside class="yaybar yay-shrink yay-hide-to-small yay-gestures">
+
+    <div class="top">
+      <div>
+        <!-- Sidebar toggle -->
+        <a href="#" class="yay-toggle">
+          <div class="burg1"></div>
+          <div class="burg2"></div>
+          <div class="burg3"></div>
+        </a>
+        <!-- Sidebar toggle -->
+
+        <!-- Logo -->
+        <a href="#!" class="brand-logo">
+          <img src="assets/_con/images/logo-white.png" alt="Con">
+        </a>
+        <!-- /Logo -->
+      </div>
+    </div>
+
+
+    <div class="nano" ng-controller="ProjectController as ProjectCtrl">
+      <div class="nano-content">
+ 
+        <ul>
+
+          <li class="label">Menu</li>
+
+          <li ng-show="ProfileCtrl.ProfileService.isLogged()">  
+            <a class="yay-sub-toggle waves-effect waves-blue"><i class="mdi-action-dns"></i> Apps <span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+            <ul> 
+              <li ng-repeat="project in ProjectCtrl.ProjectService.projects()">
+                <a class="yay-sub-toggle waves-effect waves-blue" ng-click="ProjectCtrl.showProject(project._id)">{{project.name}}</a> 
+              </li>
+              <li ng-hide="ProjectCtrl.ProjectService.projects().length > 0">  
+                <a class="yay-sub-toggle" ng-show="ProfileCtrl.ProfileService.isLogged()">No project available</a>
+              </li>
+            </ul>
+          </li>
+          <li ng-show="ProfileCtrl.ProfileService.isLogged()"> 
+            <a class="yay-sub-toggle waves-effect waves-blue"  ng-click="ProjectCtrl.addProject()"><i class="mdi-content-add"></i> Add a new project </a>
+          </li>
+          
+          <li>  
+            <a class="waves-effect waves-blue" target="_blank"  href="https://docs.google.com/a/pikelife.com/spreadsheets/d/18CqeoSO8PF6ZVVMWn0wgML1GCmOAOzpPgcRlFDHd5OE/preview?usp=sharing"><i class="mdi-action-class"></i> Tokens </a>
+          </li>  
+        </ul>
+
+      </div>
+    </div>
+  </aside>
+  <!-- /Yay Sidebar -->
+
+
+  <!-- Main Content -->
+  <section class="content-wrap" ng-controller="ProjectController as ProjectCtrl">
+    <div ng-show="ProjectCtrl.isProjectSelected()">
+      <!-- Breadcrumb -->
+      <div class="page-title">
+  
+        <div class="row">
+          <div class="col s6 m8 l10" ng-hide="ProjectCtrl.isProjectNameEdit()">  
+            <h1>{{ProjectCtrl.ProjectService.selectedProject().name}}</h1>
+            <ul>
+              <li> 
+                <a href="#" ng-click="ProjectCtrl.isProjectNameEdit(true)"><i class="mdi-content-create"></i> Click to edit the project name</a>
+              </li>
+            </ul>
+          </div>
+          <div ng-show="ProjectCtrl.isProjectNameEdit()" class="col s6 m8 l10">  
+            <div class="input-field"> 
+              <input id="input_email" type="text" name="project-name" ng-model="ProjectCtrl.ProjectService.selectedProject().name">
+            </div>
+            <ul> 
+              <li> 
+                <a href="#" ng-click="ProjectCtrl.isProjectNameEdit(false)"><i class="mdi-navigation-check"></i> done</a>  
+              </li>
+            </ul>
+          </div>
+          <div class="col s3 m2 l1 right-align" ng-show="ProfileCtrl.ProfileService.isLogged()">
+            <a href="#confim-update-project" class="btn modal-trigger green lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-content-save"></i></a>
+          </div>
+          <div class="col s3 m2 l1 right-align" ng-show="ProfileCtrl.ProfileService.isLogged()">
+            <a href="#confim-delete-project" class="btn modal-trigger red lighten-3 white-text z-depth-0 waves-effect"><i class="mdi-action-delete"></i></a>
+          </div>
+        </div> 
+      </div> 
+      <div class="card">
+        <div class="title">
+          <h5>Your spreadsheet</h5>
+          <a class="minimize" href="#">
+            <i class="mdi-navigation-expand-less"></i>
+          </a>
+        </div>
+        <div class="content spreadsheet-link">
+          <div class="input-field">
+            <i class="fa fa-user prefix"></i> 
+            <input id="link-input" type="text" name="link" value="{{ProjectCtrl.ProjectService.selectedProject().spreedKey}}" ng-model="ProjectCtrl.ProjectService.selectedProject().spreedKey">
+            <label for="link-input">Key</label>
+          </div>
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="title">
+          <h5>Project Link</h5>
+          <a class="minimize" href="#">  
+            <i class="mdi-navigation-expand-less"></i>
+          </a>
+        </div> 
+        <div class="content spreadsheet-link"><a href="#" target="_blank">pikelife.com/api/{{ProfileCtrl.ProfileService.profile()._id}}/{{ProjectCtrl.ProjectService.selectedProject().spreedKey}}</a></div>
+      </div>
+      
+      <div class="row">
+          <div class="col s12">
+            <ul class="z-depth-1 tabs">
+              <li class="tab col s3"><a class="active" href="#test1">GET</a></li>
+              <li class="tab col s3"><a href="#test2">POST</a></li>
+              <li class="tab col s3"><a href="#test3">PUT</a></li>
+              <li class="tab col s3"><a href="#test4">DELETE</a></li>
+            </ul>
+          </div>
+          <div id="test1" class="col s12">
+            <div class="card">
+              <div class="title">
+                <h5>Url Parameters</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12" ng-repeat="getUrl in ProjectCtrl.getUrlList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.value">
+                        <label for="input_text">Value</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addGetUrl()">    
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">  
+              <div class="row title">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('get')">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult()}}  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test2" class="col s12">
+            
+            <div class="card">
+              <div class="title">
+                <h5>Body</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12" ng-repeat="postBody in ProjectCtrl.postBodyList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.value">
+                        <label for="input_text">Value</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addPostBody()">    
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">
+              <div class="row title">  
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('post')">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult()}}  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test3" class="col s12">
+            <div class="card">
+              <div class="title">
+                <h5>Url Parameters</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12" ng-repeat="getUrl in ProjectCtrl.getUrlList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.value">
+                        <label for="input_text">Value</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addGetUrl()">     
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="title">
+                <h5>Body</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12" ng-repeat="postBody in ProjectCtrl.postBodyList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="postBody.value">
+                        <label for="input_text">Value</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addPostBody()">    
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class="card-panel">
+              <div class="row title">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('put')">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult()}}  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="test4" class="col s12">
+            <div class="card">
+              <div class="title">
+                <h5>Url Parameters</h5>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12" ng-repeat="getUrl in ProjectCtrl.getUrlList()">
+                    <div class="col s6 m6 l6">    
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.key">
+                        <label for="input_text">Key</label>
+                      </div>
+                    </div>
+                    <div class="col s6 m6 l6">  
+                      <div class="input-field">
+                        <input id="input_text" type="text" class="validate" placeholder="Placeholder" ng-model="getUrl.value">
+                        <label for="input_text">Value</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col s12 m12 l12 center-align">        
+                    <button class="btn" ng-click="ProjectCtrl.addGetUrl()">     
+                      <i class="mdi-content-add left"></i>Add Row   
+                    </button>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            
+  
+            <div class="card-panel">  
+              <div class="row title">
+                <div class="col s12 m7 l9">    
+                  <h4>Request result</h4>
+                </div>
+                <div class="col s12 m5 l3">
+                  <button class="btn" type="submit" name="action" ng-click="ProjectCtrl.sendRequest('delete')">
+                    Send request <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
+                    {{ProjectCtrl.requestResult}}  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  </div>
+    
+    <div ng-hide="ProjectCtrl.isProjectSelected()"> 
+      <div class="row">
+        <div class="col s12 m12 l12 center-align">    
+          <h3>Start an app from your google spreadsheet</h3>
+        </div>  
+        <div ng-show="ProfileCtrl.ProfileService.isLogged()" class="col s12 m12 l12 center-align"> 
+          <button class="waves-effect btn" ng-click="ProjectCtrl.addProject()">Add a new project</button>
+        </div>  
+        <div ng-hide="ProfileCtrl.ProfileService.isLogged()" class="col s12 m12 l12 center-align">
+          <a href="#auth-modal" class="modal-trigger">
+            <button class="waves-effect btn">Login</button>
+          </a> 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m12 l12 center-align">    
+          <a href="https://docs.google.com/a/pikelife.com/spreadsheets/d/18CqeoSO8PF6ZVVMWn0wgML1GCmOAOzpPgcRlFDHd5OE/preview?usp=sharing" target="_blank">Check out the tokens to use in your queries</a>  
+        </div> 
+      </div>
+      
+    </div>
+  </section>
+  <!-- /Main Content -->
+  
+  <!--auth dialog -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">  
+      <h4 ng-if="ProfileCtrl.authType() === 'login'">Login / <a href="#" ng-click="ProfileCtrl.authType('register')">Register</a></h4>
+      <h4 ng-if="ProfileCtrl.authType() === 'register'"><a href="#" ng-click="ProfileCtrl.authType('login')">Login</a> / Register</h4>
+      <h4 ng-if="ProfileCtrl.authType() === 'forgot-pass'"><a href="#" ng-click="ProfileCtrl.authType('login')">Login</a> / <a href="#" ng-click="ProfileCtrl.authType('register')">Register</a></h4>
+      <div class="alert" id="auth-error" style="display: none">
+        <strong>Oh snap!</strong> {{ProfileCtrl.authError()}}
+      </div>
+      <div ng-show="ProfileCtrl.authType() === 'login'"> 
+        <form data-parsley-validate>
+          <div class="input-field">
+            <i class="fa fa-user prefix"></i> 
+            <input id="email-input" type="email" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required>
+            <label for="email-input">Email</label>
+          </div>
+         
+          <div class="input-field">
+            <i class="fa fa-unlock-alt prefix"></i>
+            <input id="password-input" type="password" name="password" value="{{ProfileCtrl.authProfile().password}}" ng-model="ProfileCtrl.authProfile().password" required>
+            <label for="password-input">Password</label>
+          </div>
+           
+          <div class="row">
+            <div class="col s3 offset-s9"><button class="waves-effect btn" ng-click="ProfileCtrl.login()">LogIn</button></div>
+          </div> 
+        </form> 
+      </div>  
+       
+        <div ng-show="ProfileCtrl.authType() === 'register'"> 
+          <form data-parsley-validate>
+            <div class="input-field">
+              <i class="fa fa-envelope prefix"></i> 
+              <input id="input_email" type="email" name="email" value="{{ProfileCtrl.authProfile().email}}" ng-model="ProfileCtrl.authProfile().email" required> 
+              <label for="input_email">Email</label>
+            </div>
+           
+            <div class="input-field">
+              <i class="fa fa-user prefix"></i>
+              <input id="input_username" type="text" name="username" value="{{ProfileCtrl.authProfile().name}}" ng-model="ProfileCtrl.authProfile().name" required>
+              <label for="input_username">Username</label>
+            </div>
+           
+            <div class="input-field">
+              <i class="fa fa-unlock-alt prefix"></i>
+              <input id="input_password" type="password" name="password" value="{{ProfileCtrl.authProfile().password}}" ng-model="ProfileCtrl.authProfile().password" required>
+              <label for="input_password">Password</label>
+            </div> 
+            
+            <div class="row">
+              <div class="col s3 offset-s9"> <button class="waves-effect btn" ng-click="ProfileCtrl.register()">Register</button></div>
+            </div>
+          </form> 
+        </div>
+        
+        <div ng-show="ProfileCtrl.authType() === 'auth-success'"> 
+          
+          <div class="row">
+            <div class="col s12 m12 l12 center-align"> 
+              <h4>welcome {{ProfileCtrl.ProfileService.profile().name}}</h4>
+            </div>  
+            <div class="col s12 m12 l12 center-align"> 
+              <a href="#!" class="modal-action modal-close waves-effect btn">Start</a>   
+            </div> 
+          </div>
+        </div>
+    </div>
+  </div>
+  
+   <!--auth dialog -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">  
+      <h4>Update your profile </h4>
+      <div style="display:none" class="alert green lighten-4 green-text text-darken-2" id="profile-saved">
+        <strong>Saved successfully</strong>
+      </div>
+      <div>
+        <form data-parsley-validate>
+          <div class="input-field">
+            <i class="fa fa-envelope prefix"></i>
+            <input id="input_email" type="email" name="email" ng-model="ProfileCtrl.updateProfileData().email" required>
+            <label for="input_email">Email</label>
+          </div>
+         
+          <div class="input-field">
+            <i class="fa fa-user prefix"></i>
+            <input id="input_username" type="text" name="username" ng-model="ProfileCtrl.updateProfileData().name" required>
+            <label for="input_username">Username</label>
+          </div>
+         
+          <div class="input-field">
+            <i class="fa fa-unlock-alt prefix"></i>
+            <input id="input_password" type="password" name="password" ng-model="ProfileCtrl.updateProfileData().password" required>
+            <label for="input_password">Password</label>
+          </div> 
+          
+          <div class="row">
+            <div class="col s3 offset-s9"> <button class="waves-effect btn" ng-click="ProfileCtrl.updateProfile()">Update</button></div>
+          </div> 
+        </form>     
+      </div>
+    </div>
+  </div>
+  
+  <div id="confim-update-project" class="modal" ng-controller="ProjectController as ProjectCtrl">
+    <div class="modal-content">
+      <h4>Update confirmation</h4>
+      <p>are you sure you want to update the project</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">No</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="ProjectCtrl.updateProject()">Yes</a>
+    </div> 
+  </div>
+  
+  <div id="confim-delete-project" class="modal" ng-controller="ProjectController as ProjectCtrl">
+    <div class="modal-content">
+      <h4>Delete confirmation</h4>
+      <p>are you sure you want to delete the project</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">No</a>   
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="ProjectCtrl.deleteProject()">Yes</a>
+    </div>
+  </div>
+
+  <footer>&copy; 2015 <strong>pikelife</strong>. All rights reserved.
+  </footer>
+  
+  <!-- angular -->
+  <script type="text/javascript" src="assets/angularjs/angular.min.js"></script>
+  
+  <!-- main apps -->
+  <script type="text/javascript" src="apps/main/main.js"></script>
+  
+  <!-- profile apps -->
+  <script type="text/javascript" src="apps/profile/factory.js"></script>
+  <script type="text/javascript" src="apps/profile/app.js"></script>
+  
+  <!-- project apps -->
+  <script type="text/javascript" src="apps/project/factory.js"></script>
+  <script type="text/javascript" src="apps/project/app.js"></script>
+  
+  <!-- jQuery -->
+  <script type="text/javascript" src="assets/jquery/jquery.min.js"></script>
+
+  <!-- jQuery RAF (improved animation performance) -->
+  <script type="text/javascript" src="assets/jqueryRAF/jquery.requestAnimationFrame.min.js"></script>
+
+  <!-- nanoScroller -->
+  <script type="text/javascript" src="assets/nanoScroller/jquery.nanoscroller.min.js"></script>
+
+  <!-- Materialize -->
+  <script type="text/javascript" src="assets/materialize/js/materialize.min.js"></script>
+
+
+  <!-- Flot -->
+  <script type="text/javascript" src="assets/flot/jquery.flot.min.js"></script>
+  <script type="text/javascript" src="assets/flot/jquery.flot.time.min.js"></script>
+  <script type="text/javascript" src="assets/flot/jquery.flot.pie.min.js"></script>
+  <script type="text/javascript" src="assets/flot/jquery.flot.tooltip.min.js"></script>
+  <script type="text/javascript" src="assets/flot/jquery.flot.categories.min.js"></script>
+  <!-- Sortable -->
+  <script type="text/javascript" src="assets/sortable/Sortable.min.js"></script>
+
+  <!-- Main -->
+  <script type="text/javascript" src="assets/_con/js/_con.min.js"></script>
+
+
+  <!-- Google Prettify -->
+  <script type="text/javascript" src="assets/google-code-prettify/prettify.js"></script>
+  
+  <!-- parsley -->
+  <script type="text/javascript" src="assets/parsley/parsley.min.js"></script>
+
+</body>
+
+</html>

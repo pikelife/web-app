@@ -20,16 +20,16 @@ _this.profileModel = function(val){
   return profileModel;
 };
 
-var projectSchema;
-_this.projectSchema = function(val){
-  if(val !== undefined) projectSchema = val;
-  return projectSchema;
+var recipeSchema;
+_this.recipeSchema = function(val){
+  if(val !== undefined) recipeSchema = val;
+  return recipeSchema;
 };
 
-var projectModel;
-_this.projectModel = function(val){
-  if(val !== undefined) projectModel = val;
-  return projectModel;
+var recipeModel;
+_this.recipeModel = function(val){
+  if(val !== undefined) recipeModel = val;
+  return recipeModel;
 };
 
 var url = 'mongodb://localhost:27017/polygen';
@@ -45,21 +45,24 @@ db.once('open', function (callback) {
     email : String,
     name : String,
     password : String,
-    projects : Array
+    recipes : Array
   });
   _this.profileSchema(profileSchema);
   
   var Profile = mongoose.model('Profile', profileSchema);
   _this.profileModel(Profile);
   
-  var projectSchema = mongoose.Schema({
+  var recipeSchema = mongoose.Schema({
     name : String,
-    spreedKey : String
+    description : String,
+    ingredients : Array,
+    materials: Array,
+    videoUrl : String
   });
-  _this.projectSchema(projectSchema);
+  _this.recipeSchema(recipeSchema);
   
-  var Project = mongoose.model('Project', projectSchema);
-  _this.projectModel(Project);
+  var Recipe = mongoose.model('Recipe', recipeSchema);
+  _this.recipeModel(Recipe);
   
 });
   
@@ -141,13 +144,13 @@ app.post('/register', function (req, res) {
   }
 });
 
-app.get('/projectsAll', function (req, res) {
+app.get('/recipesAll', function (req, res) {
   var query = getQueryObj(req.url);
   var queryDb = _this.profileModel().findOne({ '_id': query.id});
   queryDb.exec(function (err, obj) {
     if (err) return console.error(err);
     var projectsArrId = obj.projects;
-    var queryDb = _this.projectModel().find();
+    var queryDb = _this.recipeModel().find();
     queryDb.exec(function (err, obj) {
               var result = [];
               if (err) return console.error(err);
@@ -277,10 +280,10 @@ app.route('/profile')
       });
   });
   
-app.route('/project')
+app.route('/recipes')
   .get(function(req, res) {
     var query = getQueryObj(req.url);
-    var queryDb = _this.projectModel().findOne({ '_id': query.id});
+    var queryDb = _this.recipeModel().findOne({ '_id': query.id});
     queryDb.exec(function (err, obj) {
       if (err) return console.error(err);
       res.send(obj); 
@@ -288,7 +291,7 @@ app.route('/project')
   })
   .post(function(req, res) {
     var query = getQueryObj(req.url);
-      var newProject = new _this.projectModel()({  "name" : "new project" });
+      var newProject = new _this.recipeModel()({  "name" : "new project" });
       newProject.save(function (err, obj) {
         if (err) return console.error(err);
         var projectId = obj._id;
@@ -316,7 +319,7 @@ app.route('/project')
     	var spreedKey = req.body.spreedKey;
     	var query = getQueryObj(req.url);
     	console.dir("GET received query " + JSON.stringify(query.id));
-    	var queryDb = _this.projectModel().findOne({ '_id': query.id});
+    	var queryDb = _this.recipeModel().findOne({ '_id': query.id});
     	queryDb.update({
     		name: name,
     		spreedKey: spreedKey
@@ -331,7 +334,7 @@ app.route('/project')
   })
   .delete(function(req, res) { 
       var query = getQueryObj(req.url);
-      _this.projectModel().remove({ '_id': query.id }, function (err, project) {
+      _this.recipeModel().remove({ '_id': query.id }, function (err, project) {
           if (err) {
               return console.error(err);
           } else {
